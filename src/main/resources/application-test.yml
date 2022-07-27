@@ -1,10 +1,10 @@
-server:
-  ssl:
-    enabled: true
-    protocol: TLS
-    key-store: /DATA/ssl/dev.startuplab.com.pfx
-    key-store-password: teamwsslP@ssw0rd
-    key-store-type: PKCS12
+# server:
+#   ssl:
+#     enabled: true
+#     protocol: TLS
+#     key-store: /DATA/ssl/dev.startuplab.com.pfx
+#     key-store-password: sslP@ssw0rd
+#     key-store-type: PKCS12
 spring:
   task:
     execution:
