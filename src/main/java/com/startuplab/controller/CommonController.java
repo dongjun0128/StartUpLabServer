@@ -118,6 +118,36 @@ public class CommonController {
     return result;
   }
 
+  @RequestMapping(value = "/user/edit")
+  @ResponseBody
+  public ApiResult editUser(HttpServletRequest request, @RequestBody(required = false) User param, @CurrentUser User currentUser) throws Exception {
+    ApiResult result = new ApiResult();
+    try {
+      // token 사용시 token의 유저정보
+      Integer current_user_id = (currentUser != null) ? currentUser.getUser_id() : null;
+
+      if (param == null) {
+        throw new MyException("요청 내용이 없습니다.");
+      }
+      // 회원가입 필수 값이 user_email, user_type 이라고 가정
+      if (CUtil.isEmptyString(param.getUser_email()) || param.getUser_type() == null) {
+        throw new MyException("필수 파라미터가 없습니다.");
+      }
+      log.error("{}", param.toString());
+      ServiceResult sr = service.editUser(param);
+      if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
+        result.addData("user", sr.getData());
+      }
+      result.setMyError(sr.getMyException());
+    } catch (MyException e) {
+      result.setMyError(e);
+    } catch (Exception e) {
+      result.setMyError();
+      e.printStackTrace();
+    }
+    return result;
+  }
+
   @RequestMapping(value = "/file/upload")
   @ResponseBody
   public ApiResult fileUpload(HttpServletRequest request, MultipartFile file) throws Exception {
@@ -141,4 +171,29 @@ public class CommonController {
     return result;
   }
 
+  @RequestMapping(value = "/user/info")
+  @ResponseBody
+  public ApiResult getUser(HttpServletRequest request, @RequestBody(required = false) SearchParam param) throws Exception {
+    ApiResult result = new ApiResult();
+    try {
+
+      log.info("param:{}", param);
+      SearchParam.checkRequiedParams(param, "search_type", "search_word");
+      param.setSearchParams();
+
+      log.info("param:{}", param);
+      ServiceResult sr = service.getUser(param);
+      if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
+        result.addData("user", sr.getData());
+      }
+      result.setMyError(sr.getMyException());
+
+    } catch (MyException e) {
+      result.setMyError(e);
+    } catch (Exception e) {
+      result.setMyError();
+      e.printStackTrace();
+    }
+    return result;
+  }
 }

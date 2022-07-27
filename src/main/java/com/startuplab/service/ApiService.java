@@ -65,6 +65,21 @@ public class ApiService {
     return sr;
   }
 
+  public ServiceResult editUser(User vo) {
+    ServiceResult sr = new ServiceResult();
+    try {
+      common.updateUser(vo);
+      User newVo = common.getUser(new SearchParam("user_id", vo.getUser_id()));
+      sr.setData(newVo);
+      sr.setMyException(new MyException(MyError.SUCCESS));
+    } catch (DuplicateKeyException e) {
+      sr.setMyException(new MyException("Duplicate email."));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return sr;
+  }
+
   @Transactional
   public ServiceResult setFcm(Fcm param) {
     ServiceResult sr = new ServiceResult();
@@ -129,4 +144,17 @@ public class ApiService {
     }
     return sr;
   }
+
+  public ServiceResult getUser(SearchParam param) {
+    ServiceResult sr = new ServiceResult();
+    try {
+      User user = common.getUser(param);
+      sr.setData(user);
+      sr.setMyException(new MyException(MyError.SUCCESS));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return sr;
+  }
+
 }
