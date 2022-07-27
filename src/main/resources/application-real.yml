@@ -1,0 +1,31 @@
+# server:
+#   ssl:
+#     enabled: true
+#     protocol: TLS
+#     key-store: /DATA/ssl/api.norder.kr.jks
+#     key-store-password: sslP@ssw0rd
+spring:
+  task:
+    execution:
+      pool:
+        max-size: 300
+        queue-capacity: 500
+      thread-name-prefix: my-exec-
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://localhost/dev?autoReconnection=true&useUnicode=true&characterResultSets=utf8&useSSL=false
+    username: u
+    password: p
+    pool-name: db-pool
+    maximum-pool-size: 500
+    data-source-properties:
+      cachePrepStmts: true
+      prepStmtCacheSize: 250
+      prepStmtCacheSqlLimit: 2048
+      useServerPrepStmts: true
+
+logging:
+  level:
+    "[com.startuplab]": info
+  file:
+    name: /DATA/springboot/startuplab/logs/catalina.out

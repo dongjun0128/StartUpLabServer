@@ -1,0 +1,36 @@
+## server
+server:
+  port: 8091
+  http-port: 8090
+  tomcat:
+    basedir: /DATA/springboot/startuplab
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+    session:
+      timeout: 120m
+spring:
+  servlet:
+    multipart:
+      maxFileSize: 10MB
+      max-request-size: 100MB
+  output:
+    ansi:
+      enabled: always
+  profiles:
+    active: @spring.profiles.active@
+  sql:
+    init:
+      continue-on-error: true
+logging:
+  level:
+    "[org.springframework]": info
+    "[org.springframework.web]": info
+  pattern:
+    console: "${LOG_LEVEL_PATTERN:%5p} [%d{MM-dd HH:mm:ss.SSS}] [%t] [%logger.%method:%line] - %m%n"
+    file: "${LOG_LEVEL_PATTERN:%5p} [%d{MM-dd HH:mm:ss.SSS}] [%t] [%logger.%method:%line] - %m%n"
+    #file: "%clr(${LOG_LEVEL_PATTERN:%5p}) %clr([%d{MM-dd HH:mm:ss.SSS}]){faint} %clr([%logger.%method:%line]){cyan} %clr(-){faint} %clr(%m%n)"
+    #console: "%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"

@@ -1,0 +1,12 @@
+{
+  "window.title": "${dirty}${activeEditorShort}${separator}${folderPath}",
+  "java.format.settings.url": "./formatter/eclipse-java-google-style.xml",
+  "java.format.settings.profile": "GoogleStyle",
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.inlayHints.parameterNames.enabled": "none",
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": null,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

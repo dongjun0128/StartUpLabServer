@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Firebase Cloud Messaging Example</title>
+    <style></style>
+  </head>
+  <body>
+    <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-messaging.js"></script>
+    <script>
+      var messaging;
+
+      function initFcm() {
+        if (!Notification) {
+          alert("이 브라우저는 알림기능을 지원하지 않습니다.");
+          return;
+        }
+        var config = {
+          apiKey: "AIzaSyCXsFVOjD6Cx7MDxu4L-MdLPvFZlfut3Qw",
+          authDomain: "startuplab-devteam.firebaseapp.com",
+          projectId: "startuplab-devteam",
+          storageBucket: "startuplab-devteam.appspot.com",
+          messagingSenderId: "398375045701",
+          appId: "1:398375045701:web:b82ac63c8249255c77b12c",
+          measurementId: "G-C6EL8W0BRK",
+        };
+
+        firebase.initializeApp(config);
+        messaging = firebase.messaging();
+        messaging.usePublicVapidKey(
+          "BB4LpH1L2DrJ_omeMnJs8bEm9SKFT5tANE_Ab3PLehe3zgWApck1ZZ5zT7rqVCDhVqZlgNBObhRaKSmNx0zvFwc"
+        );
+        messaging.onTokenRefresh(function () {
+          messaging
+            .getToken()
+            .then(function (refreshedToken) {
+              console.log("Token refreshed.");
+              setTokenSentToServer(false);
+              sendTokenToServer(refreshedToken);
+            })
+            .catch(function (err) {
+              console.log("Unable to retrieve refreshed token ", err);
+              showToken("Unable to retrieve refreshed token ", err);
+            });
+        });
+        messaging.onMessage(function (payload) {
+          console.log("onMessage", payload);
+        });
+        requestPermission();
+      }
+
+      function getToken() {
+        navigator.serviceWorker
+          .register("/norder/js/firebase-messaging-sw.js")
+          .then((registration) => {
+            messaging.useServiceWorker(registration);
+            // Request permission and get token.....
+            messaging
+              .getToken()
+              .then(function (currentToken) {
+                if (currentToken) {
+                  sendTokenToServer(currentToken);
+                  console.log("token", currentToken);
+                } else {
+                  // Show permission request.
+                  console.log(
+                    "No Instance ID token available. Request permission to generate one."
+                  );
+                  setTokenSentToServer(false);
+                }
+              })
+              .catch(function (err) {
+                console.log("An error occurred while retrieving token. ", err);
+                showToken("Error retrieving Instance ID token. ", err);
+                setTokenSentToServer(false);
+              });
+          });
+      }
+      function sendTokenToServer(currentToken) {
+        if (!isTokenSentToServer()) {
+          console.log("Sending token to server...");
+          // TODO(developer): Send the current token to your server.
+          setTokenSentToServer(true);
+        } else {
+          console.log(
+            "Token already sent to server so won't send it again " +
+              "unless it changes"
+          );
+        }
+      }
+      function isTokenSentToServer() {
+        return window.localStorage.getItem("sentToServer") === "1";
+      }
+      function setTokenSentToServer(sent) {
+        window.localStorage.setItem("sentToServer", sent ? "1" : "0");
+      }
+      function requestPermission() {
+        console.log("Requesting permission...");
+        // [START request_permission]
+        messaging
+          .requestPermission()
+          .then(function () {
+            console.log("Notification permission granted.");
+            getToken();
+          })
+          .catch(function (err) {
+            console.log("Unable to get permission to notify.", err);
+          });
+      }
+      function deleteToken() {
+        messaging
+          .getToken()
+          .then(function (currentToken) {
+            messaging
+              .deleteToken(currentToken)
+              .then(function () {
+                console.log("Token deleted.", currentToken);
+                setTokenSentToServer(false);
+              })
+              .catch(function (err) {
+                console.log("Unable to delete token. ", err);
+              });
+          })
+          .catch(function (err) {
+            console.log("Error retrieving Instance ID token. ", err);
+          });
+      }
+    </script>
+  </body>
+</html>

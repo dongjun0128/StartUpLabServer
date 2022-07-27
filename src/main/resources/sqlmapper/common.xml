@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.startuplab.dao.CommonDAO">
+
+    <insert id="insertCode" parameterType="com.startuplab.vo.Code">
+        <selectKey resultType="int" keyProperty="cd_id" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+        INSERT INTO codes (column_name, column_descript, code_id, code_name, code_descript, orderby, apply)
+		VALUES (#{column_name}, #{column_descript}, fn_get_next_code_id(#{column_name}), #{code_name}, #{code_descript}, 99, #{apply})
+    </insert>
+    <update id="updateCode" parameterType="com.startuplab.vo.Code">
+        UPDATE codes
+        <set>
+            <if test="column_descript != null"> column_descript = #{column_descript}, </if>
+            <if test="code_name != null"> code_name = #{code_name}, </if>
+            <if test="orderby != null"> orderby = #{orderby}, </if>
+            <if test="apply != null"> apply = #{apply}, </if>
+        </set>
+        WHERE cd_id = #{cd_id}
+    </update>
+
+    <insert id="insertFcm" parameterType="com.startuplab.vo.Fcm">
+		INSERT INTO fcms (user_id, fcm_token, create_time, update_time)
+		VALUES (#{user_id}, #{fcm_token}, now(), now())
+		ON DUPLICATE KEY UPDATE 
+        user_id = #{user_id}
+        , update_time = now()
+	</insert>
+    <delete id="deleteFcm" parameterType="com.startuplab.vo.Fcm">
+        delete from fcms
+        <where>
+            <choose>
+                <when test="fcm_id != null  "> and fcm_id = #{fcm_id} </when>
+                <when test="user_id != null  "> and user_id = #{user_id} </when>
+                <when test="fcm_token != null  "> and fcm_token = #{fcm_token} </when>
+                <otherwise>
+					and 1 = 2
+				</otherwise>
+            </choose>
+        </where>
+    </delete>
+
+    <insert id="insertUser" parameterType="com.startuplab.vo.User">
+        <selectKey resultType="int" keyProperty="user_id" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+        INSERT INTO users (user_email, user_password, user_name, user_phone, user_type, user_status, create_time, update_time)
+        VALUES ( #{user_email}, #{user_password}, #{user_name}, #{user_phone}, #{user_type}, 1, now(), now())
+    </insert>
+    <update id="updateUser" parameterType="com.startuplab.vo.User">
+        UPDATE users
+        <set>
+            <if test="user_password != null"> user_password = #{user_password}, </if>
+            <if test="user_name != null"> user_name = #{user_name}, </if>
+            <if test="user_phone != null"> user_phone = #{user_phone}, </if>
+            <if test="user_type != null"> user_type = #{user_type}, </if>
+            <if test="user_status != null"> user_status = #{user_status}, </if>
+            update_time = now()
+        </set>
+        WHERE user_id = #{user_id}
+    </update>
+
+    <sql id="where_user_list">
+        <where>
+            <if test="user_id != null "> and u.user_id = #{user_id} </if>
+            <if test="user_email != null and user_email !='' "> and u.user_email = #{user_email} </if>
+        </where>
+    </sql>
+    <select id="getUserList" resultType="com.startuplab.vo.User" parameterType="com.startuplab.common.vo.SearchParam">
+        select u.*
+		, fn_get_code_name('user_type', u.user_type) user_type_name
+		, fn_get_code_name('user_status', u.user_status) user_status_name
+		from users u
+        <include refid="where_user_list" />
+        order by u.user_id
+    </select>
+
+    <select id="getFcmList" resultType="com.startuplab.vo.Fcm" parameterType="com.startuplab.common.vo.SearchParam">
+        select f.*
+		from fcms f
+        <where>
+            <if test="fcm_id != null and fcm_id != '' "> and f.fcm_id = #{fcm_id} </if>
+            <if test="user_id != null and user_id != '' "> and f.user_id = #{user_id} </if>
+            <if test="fcm_token != null and fcm_token != '' "> and f.fcm_token = #{fcm_token} </if>
+        </where>
+    </select>
+
+    <select id="getCodeList" resultType="com.startuplab.vo.Code" parameterType="com.startuplab.common.vo.SearchParam">
+        select c.*
+		from codes c
+        <where>
+            <if test="apply != null "> and c.apply = #{apply} </if>
+            <if test="column_name != null and column_name !='' "> and c.column_name = #{column_name} </if>
+        </where>
+        order by c.column_name, c.orderby, c.code_id
+    </select>
+</mapper>

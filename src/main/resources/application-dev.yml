@@ -1,0 +1,27 @@
+spring:
+  task:
+    execution:
+      pool:
+        max-size: 300
+        queue-capacity: 500
+      thread-name-prefix: my-exec-
+  thymeleaf:
+    cache: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://115.85.181.186:33306/dev?autoReconnection=true&useUnicode=true&characterResultSets=utf8&useSSL=false
+    username: startuplabDB
+    password: startuplabDB
+    pool-name: db-pool
+    maximum-pool-size: 10
+    data-source-properties:
+      cachePrepStmts: true
+      prepStmtCacheSize: 250
+      prepStmtCacheSqlLimit: 2048
+      useServerPrepStmts: true
+logging:
+  level:
+    "[com.startuplab]": debug
+    # "[com.startuplab.dao.CommonDAO]": debug
+  pattern:
+    console: "%clr(${LOG_LEVEL_PATTERN:%5p}) %clr([%d{MM-dd HH:mm:ss.SSS}]){faint} %clr([%t]){faint} %clr([%logger.%method:%line]) %clr(%m%n)"
