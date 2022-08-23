@@ -66,6 +66,24 @@ public class CommonController {
     return result;
   }
 
+  @RequestMapping(value = "/token/info")
+  @ResponseBody
+  public ApiResult getTokenInfo(HttpServletRequest request, @CurrentUser User currentUser) throws Exception {
+    ApiResult result = new ApiResult();
+    try {
+      Integer user_id = (currentUser != null) ? currentUser.getUser_id() : null;
+      log.debug("user_id:{}", user_id);
+      result.addData("user", currentUser);
+      throw new MyException(MyError.SUCCESS);
+    } catch (MyException e) {
+      result.setMyError(e);
+    } catch (Exception e) {
+      result.setMyError();
+      log.error("Exception:{}", e.getMessage());
+    }
+    return result;
+  }
+
   @RequestMapping(value = "/code/list")
   @ResponseBody
   public ApiResult getCodeList(HttpServletRequest request, @RequestBody(required = false) SearchParam param) throws Exception {
@@ -130,7 +148,7 @@ public class CommonController {
         throw new MyException("요청 내용이 없습니다.");
       }
       // 회원가입 필수 값이 user_email, user_type 이라고 가정
-      if (CUtil.isEmptyString(param.getUser_email()) || param.getUser_type() == null) {
+      if (CUtil.isEmptyString(param.getUser_email()) || param.getUser_type() == null || param.getUser_id() == null) {
         throw new MyException("필수 파라미터가 없습니다.");
       }
       log.error("{}", param.toString());
