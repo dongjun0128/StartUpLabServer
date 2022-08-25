@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.startuplab.dao.WebDAO">
+
+    <!-- insertDatas 시작 -->
+    <insert id ="insertDatas" parameterType="com.startuplab.vo.Datas">
+        <selectKey resultType="int" keyProperty="data_id" order="AFTER">
+         SELECT LAST_INSERT_ID()
+      </selectKey>
+        INSERT INTO datas (work_id, data_json, user_id, data_status, create_time, update_time)
+        VALUES (#{work_id}, #{data_json}, #{user_id}, #{data_status}, now(), now())
+    </insert>
+    
+    <sql id="where_datas_list">
+        <where>
+            <if test="data_id != null "> and d.data_id = #{data_id} </if>
+        </where>
+    </sql>
+    <select id="getDatasList" resultType="com.startuplab.vo.Datas" parameterType="com.startuplab.common.vo.SearchParam">
+        select d.*      
+        from datas d
+        <include refid="where_datas_list" />
+        order by d.data_id
+    </select>
+    <!-- insertDatas 끝 -->
+
+</mapper>

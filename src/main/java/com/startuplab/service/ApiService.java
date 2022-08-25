@@ -14,6 +14,7 @@ import com.startuplab.common.vo.FileUploadVo;
 import com.startuplab.common.vo.SearchParam;
 import com.startuplab.common.vo.ServiceResult;
 import com.startuplab.vo.Code;
+import com.startuplab.vo.Datas;
 import com.startuplab.vo.Fcm;
 import com.startuplab.vo.User;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,9 @@ public class ApiService {
 
   @Autowired
   private CommonService common;
+
+  @Autowired
+  private WebService web;
 
   @PostConstruct
   public void init() {
@@ -151,6 +155,21 @@ public class ApiService {
       User user = common.getUser(param);
       sr.setData(user);
       sr.setMyException(new MyException(MyError.SUCCESS));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return sr;
+  }
+
+  public ServiceResult dbStore(Datas vo) {
+    ServiceResult sr = new ServiceResult();
+    try {
+      web.insertDatas(vo);
+      Datas newVo = web.getDatas(new SearchParam("data_id", vo.getData_id()));
+      sr.setData(newVo);
+      sr.setMyException(new MyException(MyError.SUCCESS));
+    } catch (DuplicateKeyException e) {
+      sr.setMyException(new MyException("Duplicate email."));
     } catch (Exception e) {
       e.printStackTrace();
     }
