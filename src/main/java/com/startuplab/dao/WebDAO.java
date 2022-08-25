@@ -32,4 +32,6 @@ public interface WebDAO {
 
     List<Datas> getDatasList(SearchParam param) throws SQLException;
 
+    int updateDatas(Datas param) throws SQLException;
+
 }

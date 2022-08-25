@@ -23,5 +23,17 @@
         order by d.data_id
     </select>
     <!-- insertDatas 끝 -->
-
+    
+    <!-- updateDatas 시작 -->
+    <update id="updateDatas" parameterType="com.startuplab.vo.Datas">
+        UPDATE datas
+        <set>
+            <if test="data_json != null"> data_json = #{data_json}, </if>
+            <if test="data_status != null"> data_status = #{data_status}, </if>
+            <if test="user_id != null"> user_id = #{user_id}, </if>
+            update_time = now()
+        </set>
+        WHERE data_id = #{data_id}
+    </update>
+    <!-- updateDatas 끝 -->
 </mapper>

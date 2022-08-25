@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.google.api.client.util.Data;
 import com.startuplab.common.vo.SearchParam;
 import com.startuplab.dao.CommonDAO;
 import com.startuplab.dao.WebDAO;
@@ -55,5 +57,10 @@ public class WebService {
         List<Datas> list = getDatasList(param);
         return (list != null && !list.isEmpty()) ? list.get(0) : null;
     }
+
+    public int updateDatas(Datas param) throws SQLException {
+        WebDAO dao = sqlSession.getMapper(WebDAO.class);
+        return dao.updateDatas(param);
+      }
 
 }

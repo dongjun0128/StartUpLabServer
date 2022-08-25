@@ -69,5 +69,32 @@ public class WebController {
         }
         return result;
     }
-
+    @RequestMapping(value = "/db/edit")
+    @ResponseBody
+    public ApiResult editDatas(HttpServletRequest request, @RequestBody(required = false) Datas param) throws Exception {
+        ApiResult result = new ApiResult();
+                
+        try {
+        
+        if (param == null) {
+            throw new MyException("요청 내용이 없습니다.");
+        }
+        // 필수 값이 data_id 라고 가정
+        if (param.getData_id() == 0){
+            throw new MyException("필수 파라미터가 없습니다.");
+        }
+        log.error("{}", param.toString());
+        ServiceResult sr = service.editDatas(param);
+        if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
+            result.addData("data", sr.getData());
+        }
+        result.setMyError(sr.getMyException());
+        } catch (MyException e) {
+        result.setMyError(e);
+        } catch (Exception e) {
+        result.setMyError();
+        e.printStackTrace();
+        }
+        return result;
+    }
 }

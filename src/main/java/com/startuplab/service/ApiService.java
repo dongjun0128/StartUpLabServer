@@ -175,5 +175,20 @@ public class ApiService {
     }
     return sr;
   }
+  public ServiceResult editDatas(Datas vo) {
+    ServiceResult sr = new ServiceResult();
+    try {
+      web.updateDatas(vo);
+      Datas newVo = web.getDatas(new SearchParam("data_id", vo.getData_id()));
+      sr.setData(newVo);
+      sr.setMyException(new MyException(MyError.SUCCESS));
+    } catch (DuplicateKeyException e) {
+      sr.setMyException(new MyException("Duplicate email."));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return sr;
+  }
+
 
 }
