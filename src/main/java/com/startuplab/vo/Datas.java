@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class Datas {
     private int data_id;
     private int work_id;
+    private int assignment_id;
     private String data_json;
     private int user_id;
     private int data_status;

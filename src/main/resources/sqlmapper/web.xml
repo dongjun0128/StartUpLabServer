@@ -7,8 +7,8 @@
         <selectKey resultType="int" keyProperty="data_id" order="AFTER">
          SELECT LAST_INSERT_ID()
       </selectKey>
-        INSERT INTO datas (work_id, data_json, user_id, data_status, create_time, update_time)
-        VALUES (#{work_id}, #{data_json}, #{user_id}, #{data_status}, now(), now())
+        INSERT INTO datas (work_id, assignment_id,data_json, user_id, data_status, create_time, update_time)
+        VALUES (#{work_id}, #{assignment_id}, #{data_json}, #{user_id}, #{data_status}, now(), now())
     </insert>
     
     <sql id="where_datas_list">
@@ -31,6 +31,7 @@
             <if test="data_json != null"> data_json = #{data_json}, </if>
             <if test="data_status != null"> data_status = #{data_status}, </if>
             <if test="user_id != null"> user_id = #{user_id}, </if>
+            <if test="assignment_id != null"> assignment_id = #{assignment_id}, </if>
             update_time = now()
         </set>
         WHERE data_id = #{data_id}
