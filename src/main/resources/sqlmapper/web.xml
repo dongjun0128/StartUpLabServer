@@ -37,4 +37,16 @@
         WHERE data_id = #{data_id}
     </update>
     <!-- updateDatas 끝 -->
+    <!-- selectDatas 시작 -->
+
+    <select id="selectDatas" resultType="com.startuplab.vo.Datas" parameterType="com.startuplab.vo.Datas">
+        select d.*      
+        from datas d
+        <where>
+            and d.data_status = #{data_status}
+            and d.work_id = #{work_id}
+        </where>
+    </select>
+
+    <!-- selectDatas 시작 -->
 </mapper>

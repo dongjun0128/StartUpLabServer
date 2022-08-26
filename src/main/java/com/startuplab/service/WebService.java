@@ -61,6 +61,11 @@ public class WebService {
     public int updateDatas(Datas param) throws SQLException {
         WebDAO dao = sqlSession.getMapper(WebDAO.class);
         return dao.updateDatas(param);
-      }
+    }
+    public List<Datas> selectDatas(Datas param) throws SQLException {
+        WebDAO dao = sqlSession.getMapper(WebDAO.class);
+        return dao.selectDatas(param);
+    }
+    
 
 }

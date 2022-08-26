@@ -34,4 +34,6 @@ public interface WebDAO {
 
     int updateDatas(Datas param) throws SQLException;
 
+    List<Datas> selectDatas(Datas param) throws SQLException;
+
 }

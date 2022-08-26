@@ -189,6 +189,21 @@ public class ApiService {
     }
     return sr;
   }
+  public ServiceResult dbSelect(Datas vo) {
+    ServiceResult sr = new ServiceResult();
+    try {
+      List<Datas> list = web.selectDatas(vo);
+      sr.setData(list);
+      sr.setMyException(new MyException(MyError.SUCCESS));
+
+    } catch (DuplicateKeyException e) {
+      sr.setMyException(new MyException("Duplicate email."));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return sr;
+  }
+  
 
 
 }
