@@ -9,6 +9,7 @@ import lombok.Data;
 public class User implements Serializable {
 
   private Integer user_id;
+  private Integer assignment_id;
   private String user_email;
   private String user_password;
   private String user_name;
