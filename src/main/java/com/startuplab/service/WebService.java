@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.api.client.util.Data;
 import com.startuplab.common.vo.SearchParam;
+import com.startuplab.common.vo.WorkDistribute;
 import com.startuplab.dao.CommonDAO;
 import com.startuplab.dao.WebDAO;
 import com.startuplab.vo.Code;
@@ -70,9 +71,9 @@ public class WebService {
         WebDAO dao = sqlSession.getMapper(WebDAO.class);
         return dao.selectUser(param);
     }
-    public int workDistribute(String idsIdx) throws SQLException{
+    public int workDistribute(WorkDistribute param) throws SQLException{
         WebDAO dao = sqlSession.getMapper(WebDAO.class);
-        return dao.workDistribute(idsIdx);
+        return dao.workDistribute(param);
     }
    
     

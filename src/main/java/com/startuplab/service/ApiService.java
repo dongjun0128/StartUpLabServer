@@ -17,6 +17,7 @@ import com.startuplab.common.exception.MyException.MyError;
 import com.startuplab.common.vo.FileUploadVo;
 import com.startuplab.common.vo.SearchParam;
 import com.startuplab.common.vo.ServiceResult;
+import com.startuplab.common.vo.WorkDistribute;
 import com.startuplab.vo.Code;
 import com.startuplab.vo.Datas;
 import com.startuplab.vo.Fcm;
@@ -223,9 +224,7 @@ public class ApiService {
   }
   
 
-  public void workDistribute(List<String> idsArray) throws SQLException {
-		for(int i=0; i<idsArray.size(); i++) {
-			web.workDistribute(idsArray.get(i));
-		}
+  public void workDistribute(WorkDistribute vo) throws SQLException {
+		web.workDistribute(vo);
 	}
 }

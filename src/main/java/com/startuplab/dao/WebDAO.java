@@ -3,6 +3,7 @@ package com.startuplab.dao;
 import java.sql.SQLException;
 import java.util.List;
 import com.startuplab.common.vo.SearchParam;
+import com.startuplab.common.vo.WorkDistribute;
 import com.startuplab.vo.Code;
 import com.startuplab.vo.Datas;
 import com.startuplab.vo.Fcm;
@@ -38,6 +39,6 @@ public interface WebDAO {
 
     List<User> selectUser(User param) throws SQLException;
 
-    int workDistribute(String idsIdx) throws SQLException;
+    int workDistribute(WorkDistribute param) throws SQLException;
     
 }

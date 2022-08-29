@@ -19,6 +19,7 @@ import com.startuplab.common.util.CUtil;
 import com.startuplab.common.vo.ApiResult;
 import com.startuplab.common.vo.SearchParam;
 import com.startuplab.common.vo.ServiceResult;
+import com.startuplab.common.vo.WorkDistribute;
 import com.startuplab.config.oauth2.CurrentUser;
 import com.startuplab.service.ApiService;
 import com.startuplab.service.CommonService;
@@ -163,11 +164,11 @@ public class WebController {
 
     @ResponseBody
 	@RequestMapping(value = "/work/distribution")
-	public List<String> workDistribute(@RequestBody List<String> idsArray) throws SQLException {
-		
-		log.info("idsArray={}", idsArray);
-		service.workDistribute(idsArray);
-		return idsArray;
+	public List<Integer> workDistribute(@RequestBody WorkDistribute param) throws SQLException {
+		log.info("idsArray={}", param.getIdsArray());
+        log.info("user_id={}", param.getUser_id());
+		service.workDistribute(param);
+		return param.getIdsArray();
 	}
     
 }

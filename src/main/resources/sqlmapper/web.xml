@@ -59,13 +59,16 @@
 
     <!-- selectUser 끝 -->
     <!-- workDistribute 시작 -->
-    <update id="workDistribute">
-		UPDATE datas
+    <update id="workDistribute" parameterType="com.startuplab.common.vo.WorkDistribute">
+		
+        UPDATE datas
 		<set>
-            user_id = 1    
+            user_id = #{user_id} 
         </set>
 		WHERE
-			data_id = #{idsIdx}		
+        <foreach collection="idsArray" item="data" separator="OR">
+			data_id = #{data}
+        </foreach>		
 	</update>
     <!-- workDistribute 끝 -->
     
