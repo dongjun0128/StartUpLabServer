@@ -1,5 +1,6 @@
 package com.startuplab.service;
 
+import java.sql.SQLException;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.startuplab.common.exception.MyException;
 import com.startuplab.common.exception.MyException.MyError;
 import com.startuplab.common.vo.FileUploadVo;
@@ -148,11 +152,11 @@ public class ApiService {
     }
     return sr;
   }
-
+  
   public ServiceResult getUser(SearchParam param) {
     ServiceResult sr = new ServiceResult();
     try {
-      User user = common.getUser(param);
+      User user = common.getUser(param);      
       sr.setData(user);
       sr.setMyException(new MyException(MyError.SUCCESS));
     } catch (Exception e) {
@@ -203,7 +207,25 @@ public class ApiService {
     }
     return sr;
   }
+  public ServiceResult userSelect(User vo) {
+    ServiceResult sr = new ServiceResult();
+    try {
+      List<User> list = web.selectUser(vo);
+      sr.setData(list);
+      sr.setMyException(new MyException(MyError.SUCCESS));
+
+    } catch (DuplicateKeyException e) {
+      sr.setMyException(new MyException("Duplicate email."));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return sr;
+  }
   
 
-
+  public void workDistribute(List<String> idsArray) throws SQLException {
+		for(int i=0; i<idsArray.size(); i++) {
+			web.workDistribute(idsArray.get(i));
+		}
+	}
 }

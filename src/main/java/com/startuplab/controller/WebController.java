@@ -1,5 +1,6 @@
 package com.startuplab.controller;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -24,6 +25,7 @@ import com.startuplab.service.CommonService;
 import com.startuplab.vo.Datas;
 import com.startuplab.vo.User;
 import lombok.extern.slf4j.Slf4j;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -129,4 +131,43 @@ public class WebController {
         }
         return result;
     }
+    @RequestMapping(value = "/assignment/user/list")
+    @ResponseBody
+    public ApiResult userSelect(HttpServletRequest request, @RequestBody(required = false) User param) {
+        ApiResult result = new ApiResult();
+        
+        try {
+            log.info("param:{}", param);
+            if (param == null) {
+                throw new MyException("요청 내용이 없습니다.");
+            }
+
+            if (param.getAssignment_id() == null) {
+                throw new MyException("필수 파라미터인 work_id 입력해주세요!");
+            }
+
+            ServiceResult sr = service.userSelect(param);
+            if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
+                result.addData("user", sr.getData());
+            }
+            result.setMyError(sr.getMyException());
+
+        } catch (MyException e) {
+            result.setMyError(e);
+        } catch (Exception e) {
+            result.setMyError();
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @ResponseBody
+	@RequestMapping(value = "/work/distribution")
+	public List<String> workDistribute(@RequestBody List<String> idsArray) throws SQLException {
+		
+		log.info("idsArray={}", idsArray);
+		service.workDistribute(idsArray);
+		return idsArray;
+	}
+    
 }

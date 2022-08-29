@@ -36,4 +36,8 @@ public interface WebDAO {
 
     List<Datas> selectDatas(Datas param) throws SQLException;
 
+    List<User> selectUser(User param) throws SQLException;
+
+    int workDistribute(String idsIdx) throws SQLException;
+    
 }

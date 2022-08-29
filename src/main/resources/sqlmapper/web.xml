@@ -13,7 +13,7 @@
     
     <sql id="where_datas_list">
         <where>
-            <if test="data_id != null "> and d.data_id = #{data_id} </if>
+            <if test="data_id != 0 "> and d.data_id = #{data_id} </if>
         </where>
     </sql>
     <select id="getDatasList" resultType="com.startuplab.vo.Datas" parameterType="com.startuplab.common.vo.SearchParam">
@@ -29,9 +29,9 @@
         UPDATE datas
         <set>
             <if test="data_json != null"> data_json = #{data_json}, </if>
-            <if test="data_status != null"> data_status = #{data_status}, </if>
-            <if test="user_id != null"> user_id = #{user_id}, </if>
-            <if test="assignment_id != null"> assignment_id = #{assignment_id}, </if>
+            <if test="data_status != 0"> data_status = #{data_status}, </if>
+            <if test="user_id != 0"> user_id = #{user_id}, </if>
+            <if test="assignment_id != 0"> assignment_id = #{assignment_id}, </if>
             update_time = now()
         </set>
         WHERE data_id = #{data_id}
@@ -48,5 +48,25 @@
         </where>
     </select>
 
-    <!-- selectDatas 시작 -->
+    <!-- selectUser 시작 -->
+    <select id="selectUser" resultType="com.startuplab.vo.User" parameterType="com.startuplab.vo.User">
+        select u.*      
+        from users u
+        <where>
+            and u.assignment_id = #{assignment_id}
+        </where>
+    </select>
+
+    <!-- selectUser 끝 -->
+    <!-- workDistribute 시작 -->
+    <update id="workDistribute">
+		UPDATE datas
+		<set>
+            user_id = 1    
+        </set>
+		WHERE
+			data_id = #{idsIdx}		
+	</update>
+    <!-- workDistribute 끝 -->
+    
 </mapper>
