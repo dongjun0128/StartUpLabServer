@@ -233,6 +233,7 @@ public class ApiService {
       
       resultJson.put("idsArray", vo.getIdsArray());
       resultJson.put("user_id", vo.getUser_id());
+      resultJson.put("data_status", 1);
       
       sr.setData(resultJson);
       sr.setMyException(new MyException(MyError.SUCCESS));
