@@ -144,7 +144,7 @@ public class WebController {
             }
 
             if (param.getAssignment_id() == null) {
-                throw new MyException("필수 파라미터인 work_id 입력해주세요!");
+                throw new MyException("필수 파라미터인 assignment_id 입력해주세요!");
             }
 
             ServiceResult sr = service.userSelect(param);
@@ -164,11 +164,38 @@ public class WebController {
 
     @ResponseBody
 	@RequestMapping(value = "/work/distribution")
-	public List<Integer> workDistribute(@RequestBody WorkDistribute param) throws SQLException {
-		log.info("idsArray={}", param.getIdsArray());
+	public ApiResult workDistribute(@RequestBody WorkDistribute param) throws SQLException {
+		ApiResult result = new ApiResult();
+        log.info("idsArray={}", param.getIdsArray());
         log.info("user_id={}", param.getUser_id());
-		service.workDistribute(param);
-		return param.getIdsArray();
+        try {
+            log.info("param:{}", param);
+            if (param == null) {
+                throw new MyException("요청 내용이 없습니다.");
+            }
+
+            if (param.getIdsArray() == null) {
+                throw new MyException("필수 파라미터인 idsArray 를 입력해주세요!");
+            }
+
+            if (param.getUser_id() == 0) {
+                throw new MyException("필수 파라미터인 user_id 를 입력해주세요!");
+            }
+
+            ServiceResult sr = service.workDistribute(param);
+            if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
+                result.addData("data", sr.getData());
+            }
+            result.setMyError(sr.getMyException());
+
+        } catch (MyException e) {
+            result.setMyError(e);
+        } catch (Exception e) {
+            result.setMyError();
+            e.printStackTrace();
+        }
+        return result;
+
 	}
     
 }

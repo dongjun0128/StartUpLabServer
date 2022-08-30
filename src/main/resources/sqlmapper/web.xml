@@ -45,6 +45,7 @@
         <where>
             and d.data_status = #{data_status}
             and d.work_id = #{work_id}
+            <if test="data_id != 0"> and d.data_id = #{data_id} </if>
         </where>
     </select>
 

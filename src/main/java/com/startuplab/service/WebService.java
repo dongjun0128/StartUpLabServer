@@ -71,7 +71,7 @@ public class WebService {
         WebDAO dao = sqlSession.getMapper(WebDAO.class);
         return dao.selectUser(param);
     }
-    public int workDistribute(WorkDistribute param) throws SQLException{
+    public List<WorkDistribute> workDistribute(WorkDistribute param) throws SQLException{
         WebDAO dao = sqlSession.getMapper(WebDAO.class);
         return dao.workDistribute(param);
     }

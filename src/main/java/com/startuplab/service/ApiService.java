@@ -224,7 +224,18 @@ public class ApiService {
   }
   
 
-  public void workDistribute(WorkDistribute vo) throws SQLException {
-		web.workDistribute(vo);
+  public ServiceResult workDistribute(WorkDistribute vo) {
+		ServiceResult sr = new ServiceResult();
+    try {
+      List<WorkDistribute> list = web.workDistribute(vo);
+      sr.setData(list);
+      sr.setMyException(new MyException(MyError.SUCCESS));
+
+    } catch (DuplicateKeyException e) {
+      sr.setMyException(new MyException("Duplicate email."));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return sr;
 	}
 }
