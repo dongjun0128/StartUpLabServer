@@ -2,8 +2,8 @@
 server:
   port: 8091
   http-port: 8090
-  tomcat:
-    basedir: /DATA/springboot/startuplab
+  # tomcat:
+  #   basedir: /DATA/springboot/startuplab
   servlet:
     context-path: /
     encoding:
