@@ -39,6 +39,6 @@ public interface WebDAO {
 
     List<User> selectUser(User param) throws SQLException;
 
-    List<WorkDistribute> workDistribute(WorkDistribute param) throws SQLException;
+    int workDistribute(WorkDistribute param) throws SQLException;
     
 }

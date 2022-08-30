@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import com.startuplab.common.exception.MyException;
 import com.startuplab.common.exception.MyException.MyError;
 import com.startuplab.common.vo.FileUploadVo;
@@ -224,11 +224,17 @@ public class ApiService {
   }
   
 
-  public ServiceResult workDistribute(WorkDistribute vo) {
+  public ServiceResult workDistribute(WorkDistribute vo){
 		ServiceResult sr = new ServiceResult();
     try {
-      List<WorkDistribute> list = web.workDistribute(vo);
-      sr.setData(list);
+      JSONObject resultJson = new JSONObject();
+      
+      web.workDistribute(vo);
+      
+      resultJson.put("idsArray", vo.getIdsArray());
+      resultJson.put("user_id", vo.getUser_id());
+      
+      sr.setData(resultJson);
       sr.setMyException(new MyException(MyError.SUCCESS));
 
     } catch (DuplicateKeyException e) {
@@ -237,5 +243,5 @@ public class ApiService {
       e.printStackTrace();
     }
     return sr;
-	}
+  }
 }
