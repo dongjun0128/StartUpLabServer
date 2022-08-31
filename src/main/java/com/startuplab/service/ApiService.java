@@ -173,8 +173,6 @@ public class ApiService {
       Datas newVo = web.getDatas(new SearchParam("data_id", vo.getData_id()));
       sr.setData(newVo);
       sr.setMyException(new MyException(MyError.SUCCESS));
-    } catch (DuplicateKeyException e) {
-      sr.setMyException(new MyException("Duplicate email."));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -187,8 +185,6 @@ public class ApiService {
       Datas newVo = web.getDatas(new SearchParam("data_id", vo.getData_id()));
       sr.setData(newVo);
       sr.setMyException(new MyException(MyError.SUCCESS));
-    } catch (DuplicateKeyException e) {
-      sr.setMyException(new MyException("Duplicate email."));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -215,8 +211,6 @@ public class ApiService {
       sr.setData(list);
       sr.setMyException(new MyException(MyError.SUCCESS));
 
-    } catch (DuplicateKeyException e) {
-      sr.setMyException(new MyException("Duplicate email."));
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -238,8 +232,6 @@ public class ApiService {
       sr.setData(resultJson);
       sr.setMyException(new MyException(MyError.SUCCESS));
 
-    } catch (DuplicateKeyException e) {
-      sr.setMyException(new MyException("Duplicate email."));
     } catch (Exception e) {
       e.printStackTrace();
     }
