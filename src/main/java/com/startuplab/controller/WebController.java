@@ -17,6 +17,7 @@ import com.startuplab.common.exception.MyException;
 import com.startuplab.common.exception.MyException.MyError;
 import com.startuplab.common.util.CUtil;
 import com.startuplab.common.vo.ApiResult;
+import com.startuplab.common.vo.SearchKeyWord;
 import com.startuplab.common.vo.SearchParam;
 import com.startuplab.common.vo.ServiceResult;
 import com.startuplab.common.vo.WorkDistribute;
@@ -72,34 +73,36 @@ public class WebController {
         }
         return result;
     }
+
     @RequestMapping(value = "/db/edit")
     @ResponseBody
     public ApiResult editDatas(HttpServletRequest request, @RequestBody(required = false) Datas param) throws Exception {
         ApiResult result = new ApiResult();
-                
+
         try {
-        
-        if (param == null) {
-            throw new MyException("요청 내용이 없습니다.");
-        }
-        // 필수 값이 data_id 라고 가정
-        if (param.getData_id() == 0){
-            throw new MyException("필수 파라미터가 없습니다.");
-        }
-        log.error("{}", param.toString());
-        ServiceResult sr = service.editDatas(param);
-        if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
-            result.addData("data", sr.getData());
-        }
-        result.setMyError(sr.getMyException());
+
+            if (param == null) {
+                throw new MyException("요청 내용이 없습니다.");
+            }
+            // 필수 값이 data_id 라고 가정
+            if (param.getData_id() == 0) {
+                throw new MyException("필수 파라미터가 없습니다.");
+            }
+            log.error("{}", param.toString());
+            ServiceResult sr = service.editDatas(param);
+            if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
+                result.addData("data", sr.getData());
+            }
+            result.setMyError(sr.getMyException());
         } catch (MyException e) {
-        result.setMyError(e);
+            result.setMyError(e);
         } catch (Exception e) {
-        result.setMyError();
-        e.printStackTrace();
+            result.setMyError();
+            e.printStackTrace();
         }
         return result;
     }
+
     @RequestMapping(value = "/work/info")
     @ResponseBody
     public ApiResult dbSelect(HttpServletRequest request, @RequestBody(required = false) Datas param) {
@@ -132,11 +135,12 @@ public class WebController {
         }
         return result;
     }
+
     @RequestMapping(value = "/assignment/user/list")
     @ResponseBody
     public ApiResult userSelect(HttpServletRequest request, @RequestBody(required = false) User param) {
         ApiResult result = new ApiResult();
-        
+
         try {
             log.info("param:{}", param);
             if (param == null) {
@@ -163,9 +167,9 @@ public class WebController {
     }
 
     @ResponseBody
-	@RequestMapping(value = "/work/distribution")
-	public ApiResult workDistribute(@RequestBody WorkDistribute param) throws SQLException {
-		ApiResult result = new ApiResult();
+    @RequestMapping(value = "/work/distribution")
+    public ApiResult workDistribute(@RequestBody WorkDistribute param) throws SQLException {
+        ApiResult result = new ApiResult();
         log.info("idsArray={}", param.getIdsArray());
         log.info("user_id={}", param.getUser_id());
         try {
@@ -196,8 +200,8 @@ public class WebController {
         }
         return result;
 
-	}
-    
+    }
+
     @RequestMapping(value = "/work/nums")
     @ResponseBody
     public ApiResult dbNumSelect(HttpServletRequest request) {
@@ -218,5 +222,24 @@ public class WebController {
 
         return result;
     }
-    
+
+    @RequestMapping(value = "/search")
+    @ResponseBody
+    public ApiResult dbSearch(HttpServletRequest request, @RequestBody(required = false) SearchKeyWord param) {
+        ApiResult result = new ApiResult();
+        log.info("dbSearch 시작");
+
+        try {
+            ServiceResult sr = service.dbSearch(param);
+            if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
+                result.addData("data", sr.getData());
+            }
+            result.setMyError(sr.getMyException());
+
+        } catch (Exception e) {
+            result.setMyError();
+            e.printStackTrace();
+        }
+        return result;
+    }
 }

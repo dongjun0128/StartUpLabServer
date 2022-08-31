@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.google.api.client.util.Data;
+import com.startuplab.common.vo.SearchKeyWord;
 import com.startuplab.common.vo.SearchParam;
 import com.startuplab.common.vo.WorkDistribute;
 import com.startuplab.dao.CommonDAO;
@@ -63,21 +64,29 @@ public class WebService {
         WebDAO dao = sqlSession.getMapper(WebDAO.class);
         return dao.updateDatas(param);
     }
+
     public List<Datas> selectDatas(Datas param) throws SQLException {
         WebDAO dao = sqlSession.getMapper(WebDAO.class);
         return dao.selectDatas(param);
     }
+
     public List<User> selectUser(User param) throws SQLException {
         WebDAO dao = sqlSession.getMapper(WebDAO.class);
         return dao.selectUser(param);
     }
-    public int workDistribute(WorkDistribute param) throws SQLException{
+
+    public int workDistribute(WorkDistribute param) throws SQLException {
         WebDAO dao = sqlSession.getMapper(WebDAO.class);
         return dao.workDistribute(param);
     }
+
     public int selectDatasNum(int assignment_id, int data_status) throws SQLException {
         WebDAO dao = sqlSession.getMapper(WebDAO.class);
         return dao.selectDatasNum(assignment_id, data_status);
     }
-   
+
+    public List<Datas> searchDatas(SearchKeyWord param) throws SQLException {
+        WebDAO dao = sqlSession.getMapper(WebDAO.class);
+        return dao.searchDatas(param);
+    }
 }

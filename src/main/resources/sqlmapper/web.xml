@@ -83,6 +83,16 @@
             and d.data_status = #{data_status}
         </where>
     </select>
-    <!-- selectDatasNum 시작 -->
+    <!-- selectDatasNum 끝 -->
+
+    <!-- searchDatas 시작 -->
+    <select id="searchDatas" resultType="com.startuplab.vo.Datas" parameterType="com.startuplab.common.vo.SearchKeyWord">
+        select d.*
+        from datas d
+        <where>
+            json_extract(data_json, concat('$."',#{columnName},'"')) like concat('%',#{keyword},'%')
+        </where>
+    </select>
+    <!-- searchDatas 끝 -->
     
 </mapper>

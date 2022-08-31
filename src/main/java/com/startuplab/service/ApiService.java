@@ -15,6 +15,7 @@ import org.json.simple.JSONObject;
 import com.startuplab.common.exception.MyException;
 import com.startuplab.common.exception.MyException.MyError;
 import com.startuplab.common.vo.FileUploadVo;
+import com.startuplab.common.vo.SearchKeyWord;
 import com.startuplab.common.vo.SearchParam;
 import com.startuplab.common.vo.ServiceResult;
 import com.startuplab.common.vo.WorkDistribute;
@@ -153,11 +154,11 @@ public class ApiService {
     }
     return sr;
   }
-  
+
   public ServiceResult getUser(SearchParam param) {
     ServiceResult sr = new ServiceResult();
     try {
-      User user = common.getUser(param);      
+      User user = common.getUser(param);
       sr.setData(user);
       sr.setMyException(new MyException(MyError.SUCCESS));
     } catch (Exception e) {
@@ -178,6 +179,7 @@ public class ApiService {
     }
     return sr;
   }
+
   public ServiceResult editDatas(Datas vo) {
     ServiceResult sr = new ServiceResult();
     try {
@@ -190,6 +192,7 @@ public class ApiService {
     }
     return sr;
   }
+
   public ServiceResult dbSelect(Datas vo) {
     ServiceResult sr = new ServiceResult();
     try {
@@ -204,6 +207,7 @@ public class ApiService {
     }
     return sr;
   }
+
   public ServiceResult userSelect(User vo) {
     ServiceResult sr = new ServiceResult();
     try {
@@ -216,19 +220,18 @@ public class ApiService {
     }
     return sr;
   }
-  
 
-  public ServiceResult workDistribute(WorkDistribute vo){
-		ServiceResult sr = new ServiceResult();
+  public ServiceResult workDistribute(WorkDistribute vo) {
+    ServiceResult sr = new ServiceResult();
     try {
       JSONObject resultJson = new JSONObject();
-      
+
       web.workDistribute(vo);
-      
+
       resultJson.put("idsArray", vo.getIdsArray());
       resultJson.put("user_id", vo.getUser_id());
       resultJson.put("data_status", 2);
-      
+
       sr.setData(resultJson);
       sr.setMyException(new MyException(MyError.SUCCESS));
 
@@ -237,7 +240,7 @@ public class ApiService {
     }
     return sr;
   }
-  
+
   public ServiceResult dbNumSelect() {
     ServiceResult sr = new ServiceResult();
     try {
@@ -261,4 +264,20 @@ public class ApiService {
     }
     return sr;
   }
+
+  public ServiceResult dbSearch(SearchKeyWord vo) {
+    ServiceResult sr = new ServiceResult();
+    try {
+      List<Datas> list = web.searchDatas(vo);
+      sr.setData(list);
+      sr.setMyException(new MyException(MyError.SUCCESS));
+
+    } catch (DuplicateKeyException e) {
+      sr.setMyException(new MyException("Duplicate email."));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return sr;
+  }
+
 }

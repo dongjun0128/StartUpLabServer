@@ -2,6 +2,7 @@ package com.startuplab.dao;
 
 import java.sql.SQLException;
 import java.util.List;
+import com.startuplab.common.vo.SearchKeyWord;
 import com.startuplab.common.vo.SearchParam;
 import com.startuplab.common.vo.WorkDistribute;
 import com.startuplab.vo.Code;
@@ -40,7 +41,8 @@ public interface WebDAO {
     List<User> selectUser(User param) throws SQLException;
 
     int workDistribute(WorkDistribute param) throws SQLException;
-    
+
     int selectDatasNum(int assignment_id, int data_status);
-    
+
+    List<Datas> searchDatas(SearchKeyWord param) throws SQLException;
 }
