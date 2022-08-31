@@ -75,7 +75,9 @@ public class WebService {
         WebDAO dao = sqlSession.getMapper(WebDAO.class);
         return dao.workDistribute(param);
     }
+    public int selectDatasNum(int assignment_id, int data_status) throws SQLException {
+        WebDAO dao = sqlSession.getMapper(WebDAO.class);
+        return dao.selectDatasNum(assignment_id, data_status);
+    }
    
-    
-
 }

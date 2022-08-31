@@ -237,4 +237,28 @@ public class ApiService {
     }
     return sr;
   }
+  
+  public ServiceResult dbNumSelect() {
+    ServiceResult sr = new ServiceResult();
+    try {
+      JSONArray dbNumsArry = new JSONArray();
+
+      for (int assignment_id = 1; assignment_id < 5; assignment_id++) {
+        JSONObject dbNums = new JSONObject();
+        dbNums.put("assignment_id", assignment_id);
+        for (int data_status = 1; data_status < 5; data_status++) {
+          dbNums.put("data_status" + data_status, web.selectDatasNum(assignment_id, data_status));
+        }
+        dbNumsArry.add(dbNums);
+      }
+      sr.setData(dbNumsArry);
+      sr.setMyException(new MyException(MyError.SUCCESS));
+
+    } catch (DuplicateKeyException e) {
+      sr.setMyException(new MyException("Duplicate email."));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return sr;
+  }
 }

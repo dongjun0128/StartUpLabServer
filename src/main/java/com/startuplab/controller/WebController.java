@@ -198,4 +198,25 @@ public class WebController {
 
 	}
     
+    @RequestMapping(value = "/work/nums")
+    @ResponseBody
+    public ApiResult dbNumSelect(HttpServletRequest request) {
+        ApiResult result = new ApiResult();
+        log.info("dbNumSelect 시작");
+
+        try {
+            ServiceResult sr = service.dbNumSelect();
+            if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
+                result.addData("data", sr.getData());
+            }
+            result.setMyError(sr.getMyException());
+
+        } catch (Exception e) {
+            result.setMyError();
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+    
 }

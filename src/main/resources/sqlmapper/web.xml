@@ -73,5 +73,16 @@
         </foreach>		
 	</update>
     <!-- workDistribute 끝 -->
+
+    <!-- selectDatasNum 시작 -->
+    <select id="selectDatasNum" resultType="Integer" parameterType="Integer">
+        select count(*)      
+        from datas d
+        <where>
+            and d.assignment_id = #{assignment_id}
+            and d.data_status = #{data_status}
+        </where>
+    </select>
+    <!-- selectDatasNum 시작 -->
     
 </mapper>
