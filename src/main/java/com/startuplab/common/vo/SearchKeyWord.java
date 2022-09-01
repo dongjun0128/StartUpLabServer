@@ -6,4 +6,6 @@ import lombok.Data;
 public class SearchKeyWord {
     private String keyword;
     private String columnName;
+    private String data_status;
+    private String assignment_id;
 }

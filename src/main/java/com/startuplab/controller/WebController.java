@@ -230,12 +230,30 @@ public class WebController {
         log.info("dbSearch 시작");
 
         try {
+            if (param.getData_status() == null) {
+                throw new MyException("필수 파라미터인 data_status 를 입력해주세요!");
+            }
+
+            if (param.getAssignment_id() == null) {
+                throw new MyException("필수 파라미터인 assignment_id 를 입력해주세요!");
+            }
+
+            if (param.getColumnName() == null) {
+                throw new MyException("필수 파라미터인 columnName 를 입력해주세요!");
+            }
+
+            if (param.getKeyword() == null) {
+                throw new MyException("필수 파라미터인 keyword 를 입력해주세요!");
+            }
+
             ServiceResult sr = service.dbSearch(param);
             if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
                 result.addData("data", sr.getData());
             }
             result.setMyError(sr.getMyException());
 
+        } catch (MyException e) {
+            result.setMyError(e);
         } catch (Exception e) {
             result.setMyError();
             e.printStackTrace();
