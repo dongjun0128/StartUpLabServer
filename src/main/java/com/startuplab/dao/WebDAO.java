@@ -2,6 +2,8 @@ package com.startuplab.dao;
 
 import java.sql.SQLException;
 import java.util.List;
+import org.springframework.jdbc.support.MetaDataAccessException;
+import com.startuplab.common.vo.MetaData;
 import com.startuplab.common.vo.SearchKeyWord;
 import com.startuplab.common.vo.SearchParam;
 import com.startuplab.common.vo.WorkDistribute;
@@ -45,4 +47,6 @@ public interface WebDAO {
     int selectDatasNum(int assignment_id, int data_status);
 
     List<Datas> searchDatas(SearchKeyWord param) throws SQLException;
+
+    List<MetaData> selectMetas(MetaData param) throws SQLException;
 }

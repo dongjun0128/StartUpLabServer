@@ -96,5 +96,14 @@
         </where>
     </select>
     <!-- searchDatas 끝 -->
+    <!-- selectUser 시작 -->
+    <select id="selectMetas" resultType="com.startuplab.common.vo.MetaData" parameterType="com.startuplab.common.vo.MetaData">
+        select m.*      
+        from metas m
+        <where>
+            and m.work_id = #{work_id}
+        </where>
+    </select>
+    <!-- selectUser 끝 -->
     
 </mapper>

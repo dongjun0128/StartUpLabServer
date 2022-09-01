@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.google.api.client.util.Data;
+import com.startuplab.common.vo.MetaData;
 import com.startuplab.common.vo.SearchKeyWord;
 import com.startuplab.common.vo.SearchParam;
 import com.startuplab.common.vo.WorkDistribute;
@@ -89,4 +90,10 @@ public class WebService {
         WebDAO dao = sqlSession.getMapper(WebDAO.class);
         return dao.searchDatas(param);
     }
+
+    public List<MetaData> selectMetas(MetaData param) throws SQLException {
+        WebDAO dao = sqlSession.getMapper(WebDAO.class);
+        return dao.selectMetas(param);
+    }
+
 }

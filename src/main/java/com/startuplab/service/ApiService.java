@@ -15,6 +15,7 @@ import org.json.simple.JSONObject;
 import com.startuplab.common.exception.MyException;
 import com.startuplab.common.exception.MyException.MyError;
 import com.startuplab.common.vo.FileUploadVo;
+import com.startuplab.common.vo.MetaData;
 import com.startuplab.common.vo.SearchKeyWord;
 import com.startuplab.common.vo.SearchParam;
 import com.startuplab.common.vo.ServiceResult;
@@ -274,6 +275,21 @@ public class ApiService {
 
     } catch (DuplicateKeyException e) {
       sr.setMyException(new MyException("Duplicate email."));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return sr;
+  }
+
+  public ServiceResult metaSelect(MetaData vo) {
+    ServiceResult sr = new ServiceResult();
+    try {
+      List<MetaData> list = web.selectMetas(vo);
+      sr.setData(list);
+      sr.setMyException(new MyException(MyError.SUCCESS));
+
+    } catch (DuplicateKeyException e) {
+      sr.setMyException(new MyException("Duplicate meta."));
     } catch (Exception e) {
       e.printStackTrace();
     }

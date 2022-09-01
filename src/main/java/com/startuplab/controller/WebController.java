@@ -17,6 +17,7 @@ import com.startuplab.common.exception.MyException;
 import com.startuplab.common.exception.MyException.MyError;
 import com.startuplab.common.util.CUtil;
 import com.startuplab.common.vo.ApiResult;
+import com.startuplab.common.vo.MetaData;
 import com.startuplab.common.vo.SearchKeyWord;
 import com.startuplab.common.vo.SearchParam;
 import com.startuplab.common.vo.ServiceResult;
@@ -258,6 +259,27 @@ public class WebController {
             result.setMyError();
             e.printStackTrace();
         }
+        return result;
+    }
+
+    @RequestMapping(value = "/metadata")
+    @ResponseBody
+    public ApiResult metaSelect(HttpServletRequest request, @RequestBody(required = false) MetaData param) {
+        ApiResult result = new ApiResult();
+        log.info("metaData Search 시작");
+
+        try {
+            ServiceResult sr = service.metaSelect(param);
+            if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
+                result.addData("data", sr.getData());
+            }
+            result.setMyError(sr.getMyException());
+
+        } catch (Exception e) {
+            result.setMyError();
+            e.printStackTrace();
+        }
+
         return result;
     }
 }
