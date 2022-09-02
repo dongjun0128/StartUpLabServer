@@ -235,8 +235,8 @@ public class WebController {
                 throw new MyException("필수 파라미터인 data_status 를 입력해주세요!");
             }
 
-            if (param.getAssignment_id() == null) {
-                throw new MyException("필수 파라미터인 assignment_id 를 입력해주세요!");
+            if (param.getWork_id() == null) {
+                throw new MyException("필수 파라미터인 work_id 를 입력해주세요!");
             }
 
             if (param.getColumnName() == null) {

@@ -91,7 +91,7 @@
         from datas d
         <where>
             json_extract(data_json, concat('$."',#{columnName},'"')) like concat('%',#{keyword},'%')
-            and assignment_id = #{assignment_id}
+            and work_id = #{work_id}
             and data_status = #{data_status}
         </where>
     </select>
