@@ -144,13 +144,6 @@ public class WebController {
 
         try {
             log.info("param:{}", param);
-            if (param == null) {
-                throw new MyException("요청 내용이 없습니다.");
-            }
-
-            if (param.getAssignment_id() == null) {
-                throw new MyException("필수 파라미터인 assignment_id 입력해주세요!");
-            }
 
             ServiceResult sr = service.userSelect(param);
             if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
@@ -158,8 +151,6 @@ public class WebController {
             }
             result.setMyError(sr.getMyException());
 
-        } catch (MyException e) {
-            result.setMyError(e);
         } catch (Exception e) {
             result.setMyError();
             e.printStackTrace();
@@ -269,12 +260,17 @@ public class WebController {
         log.info("metaData Search 시작");
 
         try {
+            if (param.getWork_id() == 0) {
+                throw new MyException("필수 파라미터인 work_id 를 입력해주세요!");
+            }
             ServiceResult sr = service.metaSelect(param);
             if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
                 result.addData("data", sr.getData());
             }
             result.setMyError(sr.getMyException());
 
+        } catch (MyException e) {
+            result.setMyError(e);
         } catch (Exception e) {
             result.setMyError();
             e.printStackTrace();

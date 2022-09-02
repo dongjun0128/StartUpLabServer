@@ -117,8 +117,8 @@ public class CommonController {
       if (param == null) {
         throw new MyException("요청 내용이 없습니다.");
       }
-      // 회원가입 필수 값이 user_email, user_password, user_type 이라고 가정
-      if (CUtil.isEmptyString(param.getUser_email()) || CUtil.isEmptyString(param.getUser_password()) || param.getUser_type() == null) {
+      // 회원가입 필수 값이 user_email, user_password
+      if (CUtil.isEmptyString(param.getUser_email()) || CUtil.isEmptyString(param.getUser_password())) {
         throw new MyException("필수 파라미터가 없습니다.");
       }
 

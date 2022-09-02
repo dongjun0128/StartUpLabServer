@@ -287,7 +287,6 @@ public class ApiService {
       List<MetaData> list = web.selectMetas(vo);
       sr.setData(list);
       sr.setMyException(new MyException(MyError.SUCCESS));
-
     } catch (DuplicateKeyException e) {
       sr.setMyException(new MyException("Duplicate meta."));
     } catch (Exception e) {

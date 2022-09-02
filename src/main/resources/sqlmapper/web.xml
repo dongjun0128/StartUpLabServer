@@ -40,7 +40,8 @@
     <!-- selectDatas 시작 -->
 
     <select id="selectDatas" resultType="com.startuplab.vo.Datas" parameterType="com.startuplab.vo.Datas">
-        select d.*      
+        select d.*  
+		, fn_get_code_name('data_status', d.data_status) data_status_name    
         from datas d
         <where>
             and d.data_status = #{data_status}
@@ -51,11 +52,11 @@
 
     <!-- selectUser 시작 -->
     <select id="selectUser" resultType="com.startuplab.vo.User" parameterType="com.startuplab.vo.User">
-        select u.*      
+        select u.*
+        , fn_get_code_name('user_type', u.user_type) user_type_name
+		, fn_get_code_name('user_status', u.user_status) user_status_name      
         from users u
-        <where>
-            and u.assignment_id = #{assignment_id}
-        </where>
+        
     </select>
 
     <!-- selectUser 끝 -->
@@ -88,6 +89,7 @@
     <!-- searchDatas 시작 -->
     <select id="searchDatas" resultType="com.startuplab.vo.Datas" parameterType="com.startuplab.common.vo.SearchKeyWord">
         select d.*
+        , fn_get_code_name('data_status', d.data_status) data_status_name   
         from datas d
         <where>
             json_extract(data_json, concat('$."',#{columnName},'"')) like concat('%',#{keyword},'%')
@@ -98,7 +100,8 @@
     <!-- searchDatas 끝 -->
     <!-- selectUser 시작 -->
     <select id="selectMetas" resultType="com.startuplab.common.vo.MetaData" parameterType="com.startuplab.common.vo.MetaData">
-        select m.*      
+        select m.*
+        , fn_get_code_name('meta_type', m.meta_type) meta_type_name     
         from metas m
         <where>
             and m.work_id = #{work_id}

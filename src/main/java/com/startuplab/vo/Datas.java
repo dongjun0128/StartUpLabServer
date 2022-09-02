@@ -17,4 +17,6 @@ public class Datas {
     private int data_status;
     private LocalDateTime create_time;
     private LocalDateTime update_time;
+
+    private String data_status_name;
 }
