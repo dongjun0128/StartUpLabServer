@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -208,6 +209,27 @@ public class CommonController {
 
     } catch (MyException e) {
       result.setMyError(e);
+    } catch (Exception e) {
+      result.setMyError();
+      e.printStackTrace();
+    }
+    return result;
+  }
+
+  @RequestMapping(value = "/user/info/{user_id}")
+  @ResponseBody
+  public ApiResult getUserById(HttpServletRequest request, @PathVariable int user_id) throws Exception {
+    ApiResult result = new ApiResult();
+    try {
+
+      log.info("param:{}", user_id);
+
+      ServiceResult sr = service.getUserById(user_id);
+      if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
+        result.addData("user", sr.getData());
+      }
+      result.setMyError(sr.getMyException());
+
     } catch (Exception e) {
       result.setMyError();
       e.printStackTrace();

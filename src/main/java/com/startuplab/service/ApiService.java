@@ -168,6 +168,18 @@ public class ApiService {
     return sr;
   }
 
+  public ServiceResult getUserById(int param) {
+    ServiceResult sr = new ServiceResult();
+    try {
+      User user = common.getUserById(param);
+      sr.setData(user);
+      sr.setMyException(new MyException(MyError.SUCCESS));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return sr;
+  }
+
   public ServiceResult dbStore(Datas vo) {
     ServiceResult sr = new ServiceResult();
     try {

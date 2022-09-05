@@ -90,6 +90,11 @@ public class CommonService {
     return (list != null && !list.isEmpty()) ? list.get(0) : null;
   }
 
+  public User getUserById(int user_id) throws SQLException {
+    SearchParam id = new SearchParam("user_id", user_id);
+    return getUser(id);
+  }
+
   public User getUserByEmail(String email) throws SQLException {
     SearchParam param = new SearchParam("user_email", email);
     return getUser(param);
