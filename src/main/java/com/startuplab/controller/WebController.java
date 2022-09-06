@@ -196,19 +196,49 @@ public class WebController {
 
     }
 
-    @RequestMapping(value = "/work/nums")
+    @RequestMapping(value = "/assignment/nums")
     @ResponseBody
-    public ApiResult dbNumSelect(HttpServletRequest request) {
+    public ApiResult dbAssignmentNumSelect(HttpServletRequest request) {
         ApiResult result = new ApiResult();
-        log.info("dbNumSelect 시작");
+        log.info("dbAssignmentNumSelect 시작");
 
         try {
-            ServiceResult sr = service.dbNumSelect();
+            ServiceResult sr = service.dbAssignmentNumSelect();
             if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
                 result.addData("data", sr.getData());
             }
             result.setMyError(sr.getMyException());
 
+        } catch (Exception e) {
+            result.setMyError();
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @RequestMapping(value = "/work/nums")
+    @ResponseBody
+    public ApiResult dbWorkNumSelect(HttpServletRequest request, @RequestBody(required = false) Datas param) {
+        ApiResult result = new ApiResult();
+        log.info("dbWorkNumSelect 시작");
+        log.info("param:{}", param);
+        log.info("{}", param.getWork_id());
+
+        try {
+
+            if (param.getWork_id() == 0) {
+                throw new MyException("필수 파라미터인 Work_id 를 입력해주세요!");
+            }
+
+            ServiceResult sr = service.dbWorkNumSelect(param);
+            if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
+                result.addData("data", sr.getData());
+            }
+            result.setMyError(sr.getMyException());
+
+        } catch (MyException e) {
+            result.setMyError(e);
         } catch (Exception e) {
             result.setMyError();
             e.printStackTrace();

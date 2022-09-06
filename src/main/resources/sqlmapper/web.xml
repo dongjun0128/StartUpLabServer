@@ -78,8 +78,8 @@
 	</update>
     <!-- workDistribute 끝 -->
 
-    <!-- selectDatasNum 시작 -->
-    <select id="selectDatasNum" resultType="Integer" parameterType="Integer">
+    <!-- selectAssignmentDatasNum 시작 -->
+    <select id="selectAssignmentDatasNum" resultType="Integer" parameterType="Integer">
         select count(*)      
         from datas d
         <where>
@@ -87,7 +87,18 @@
             and d.data_status = #{data_status}
         </where>
     </select>
-    <!-- selectDatasNum 끝 -->
+    <!-- selectAssignmentDatasNum 끝 -->
+
+    <!-- selectWorkDatasNum 시작 -->
+    <select id="selectWorkDatasNum" resultType="Integer" parameterType="Integer">
+        select count(*)      
+        from datas d
+        <where>
+            and d.work_id = #{work_id}
+            and d.data_status = #{data_status}
+        </where>
+    </select>
+    <!-- selectWorkDatasNum 끝 -->
 
     <!-- searchDatas 시작 -->
     <select id="searchDatas" resultType="com.startuplab.vo.Datas" parameterType="com.startuplab.common.vo.SearchKeyWord">

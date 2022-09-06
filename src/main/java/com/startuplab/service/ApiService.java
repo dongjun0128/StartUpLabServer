@@ -254,7 +254,7 @@ public class ApiService {
     return sr;
   }
 
-  public ServiceResult dbNumSelect() {
+  public ServiceResult dbAssignmentNumSelect() {
     ServiceResult sr = new ServiceResult();
     try {
       JSONArray dbNumsArry = new JSONArray();
@@ -263,11 +263,30 @@ public class ApiService {
         JSONObject dbNums = new JSONObject();
         dbNums.put("assignment_id", assignment_id);
         for (int data_status = 1; data_status < 5; data_status++) {
-          dbNums.put("data_status" + data_status, web.selectDatasNum(assignment_id, data_status));
+          dbNums.put("data_status" + data_status, web.selectAssignmentDatasNum(assignment_id, data_status));
         }
         dbNumsArry.add(dbNums);
       }
       sr.setData(dbNumsArry);
+      sr.setMyException(new MyException(MyError.SUCCESS));
+
+    } catch (DuplicateKeyException e) {
+      sr.setMyException(new MyException("Duplicate email."));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return sr;
+  }
+
+  public ServiceResult dbWorkNumSelect(Datas param) {
+    ServiceResult sr = new ServiceResult();
+    try {
+      JSONObject dbNums = new JSONObject();
+      dbNums.put("work_id", param.getWork_id());
+      for (int data_status = 1; data_status < 5; data_status++) {
+        dbNums.put("data_status" + data_status, web.selectWorkDatasNum(param.getWork_id(), data_status));
+      }
+      sr.setData(dbNums);
       sr.setMyException(new MyException(MyError.SUCCESS));
 
     } catch (DuplicateKeyException e) {

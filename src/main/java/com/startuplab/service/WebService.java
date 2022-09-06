@@ -81,9 +81,14 @@ public class WebService {
         return dao.workDistribute(param);
     }
 
-    public int selectDatasNum(int assignment_id, int data_status) throws SQLException {
+    public int selectAssignmentDatasNum(int assignment_id, int data_status) throws SQLException {
         WebDAO dao = sqlSession.getMapper(WebDAO.class);
-        return dao.selectDatasNum(assignment_id, data_status);
+        return dao.selectAssignmentDatasNum(assignment_id, data_status);
+    }
+
+    public int selectWorkDatasNum(int work_id, int data_status) throws SQLException {
+        WebDAO dao = sqlSession.getMapper(WebDAO.class);
+        return dao.selectWorkDatasNum(work_id, data_status);
     }
 
     public List<Datas> searchDatas(SearchKeyWord param) throws SQLException {

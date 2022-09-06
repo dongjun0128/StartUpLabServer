@@ -44,7 +44,9 @@ public interface WebDAO {
 
     int workDistribute(WorkDistribute param) throws SQLException;
 
-    int selectDatasNum(int assignment_id, int data_status);
+    int selectAssignmentDatasNum(int assignment_id, int data_status);
+
+    int selectWorkDatasNum(int work_id, int data_status);
 
     List<Datas> searchDatas(SearchKeyWord param) throws SQLException;
 
