@@ -3,14 +3,14 @@
 <mapper namespace="com.startuplab.dao.WebDAO">
 
     <!-- insertDatas 시작 -->
-    <insert id ="insertDatas" parameterType="com.startuplab.vo.Datas">
+    <insert id="insertDatas" parameterType="com.startuplab.vo.Datas">
         <selectKey resultType="int" keyProperty="data_id" order="AFTER">
          SELECT LAST_INSERT_ID()
       </selectKey>
         INSERT INTO datas (work_id, assignment_id,data_json, user_id, data_status, create_time, update_time)
         VALUES (#{work_id}, #{assignment_id}, #{data_json}, #{user_id}, #{data_status}, now(), now())
     </insert>
-    
+
     <sql id="where_datas_list">
         <where>
             <if test="data_id != 0 "> and d.data_id = #{data_id} </if>
@@ -23,7 +23,7 @@
         order by d.data_id
     </select>
     <!-- insertDatas 끝 -->
-    
+
     <!-- updateDatas 시작 -->
     <update id="updateDatas" parameterType="com.startuplab.vo.Datas">
         UPDATE datas
@@ -47,6 +47,7 @@
             and d.data_status = #{data_status}
             and d.work_id = #{work_id}
             <if test="data_id != 0"> and d.data_id = #{data_id} </if>
+            <if test="user_id != 0"> and d.user_id = #{user_id} </if>
         </where>
     </select>
 
@@ -56,26 +57,22 @@
         , fn_get_code_name('user_type', u.user_type) user_type_name
 		, fn_get_code_name('user_status', u.user_status) user_status_name
         from users u
-        <where>
-            <if test="assignment_id == 0"> 1=1 </if>
-            <if test="assignment_id != 0"> and u.assignment_id = #{assignment_id} </if>
-        </where>
+        
     </select>
 
     <!-- selectUser 끝 -->
     <!-- workDistribute 시작 -->
-    <update id="workDistribute" >
-		
+    <update id="workDistribute">
         UPDATE datas
-		<set>
+        <set>
             user_id = #{user_id}
             and data_status = 2
         </set>
-		WHERE
+        WHERE
         <foreach collection="idsArray" item="data" separator="OR">
 			data_id = #{data}
-        </foreach>		
-	</update>
+        </foreach>
+    </update>
     <!-- workDistribute 끝 -->
 
     <!-- selectAssignmentDatasNum 시작 -->
@@ -122,5 +119,9 @@
         </where>
     </select>
     <!-- selectUser 끝 -->
-    
+
 </mapper>
+<!-- <where>  select usermapper
+    <if test="assignment_id == 0"> 1=1 </if>
+    <if test="assignment_id != 0"> and u.assignment_id = #{assignment_id} </if>
+</where> -->
