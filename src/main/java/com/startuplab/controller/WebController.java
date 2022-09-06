@@ -139,6 +139,35 @@ public class WebController {
         return result;
     }
 
+    @RequestMapping(value = "/manager/work/info")
+    @ResponseBody
+    public ApiResult managerDbSelect(HttpServletRequest request, @RequestBody(required = false) Datas param) {
+        ApiResult result = new ApiResult();
+        try {
+            log.info("param:{}", param);
+            if (param == null) {
+                throw new MyException("요청 내용이 없습니다.");
+            }
+
+            if (param.getWork_id() == 0) {
+                throw new MyException("필수 파라미터인 work_id 입력해주세요!");
+            }
+
+            ServiceResult sr = service.dbSelect(param);
+            if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
+                result.addData("data", sr.getData());
+            }
+            result.setMyError(sr.getMyException());
+
+        } catch (MyException e) {
+            result.setMyError(e);
+        } catch (Exception e) {
+            result.setMyError();
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     @RequestMapping(value = "/assignment/user/list")
     @ResponseBody
     public ApiResult userSelect(HttpServletRequest request, @RequestBody(required = false) User param) {

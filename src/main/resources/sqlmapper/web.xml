@@ -44,10 +44,10 @@
 		, fn_get_code_name('data_status', d.data_status) data_status_name    
         from datas d
         <where>
-            and d.data_status = #{data_status}
             and d.work_id = #{work_id}
             <if test="data_id != 0"> and d.data_id = #{data_id} </if>
             <if test="user_id != 0"> and d.user_id = #{user_id} </if>
+            <if test="data_status != 0"> and d.data_status = #{data_status} </if>
         </where>
     </select>
 
