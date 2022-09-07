@@ -326,4 +326,18 @@ public class ApiService {
     return sr;
   }
 
+  public ServiceResult emailToId(User vo) {
+    ServiceResult sr = new ServiceResult();
+    try {
+      int user_id = web.emailToId(vo);
+      sr.setData(user_id);
+      sr.setMyException(new MyException(MyError.SUCCESS));
+    } catch (DuplicateKeyException e) {
+      sr.setMyException(new MyException("Duplicate meta."));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return sr;
+  }
+
 }

@@ -339,4 +339,31 @@ public class WebController {
 
         return result;
     }
+
+    @RequestMapping(value = "/email/to/id")
+    @ResponseBody
+    public ApiResult emailToId(HttpServletRequest request, @RequestBody(required = false) User param) {
+        ApiResult result = new ApiResult();
+        log.info("emailToId 시작");
+
+        try {
+            if (param.getUser_email() == null) {
+                throw new MyException("필수 파라미터인 user_email을 입력해주세요!");
+            }
+            ServiceResult sr = service.emailToId(param);
+            if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
+                result.addData("user_id", sr.getData());
+            }
+            result.setMyError(sr.getMyException());
+
+        } catch (MyException e) {
+            result.setMyError(e);
+        } catch (Exception e) {
+            result.setMyError();
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
 }

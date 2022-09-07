@@ -120,6 +120,15 @@
     </select>
     <!-- selectUser 끝 -->
 
+    <!-- eamilToId 시작 -->
+    <select id="emailToId" resultType="int" parameterType="com.startuplab.vo.User">
+        select user_id from users
+        <where>
+            <if test="user_email != null"> user_email = #{user_email} </if>
+        </where>
+    </select>
+    <!-- eamilToId 끝 -->
+
 </mapper>
 <!-- <where>  select usermapper
     <if test="assignment_id == 0"> 1=1 </if>

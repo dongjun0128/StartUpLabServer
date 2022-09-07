@@ -101,4 +101,9 @@ public class WebService {
         return dao.selectMetas(param);
     }
 
+    public int emailToId(User param) throws SQLException {
+        WebDAO dao = sqlSession.getMapper(WebDAO.class);
+        return dao.emailToId(param);
+    }
+
 }

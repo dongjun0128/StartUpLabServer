@@ -51,4 +51,6 @@ public interface WebDAO {
     List<Datas> searchDatas(SearchKeyWord param) throws SQLException;
 
     List<MetaData> selectMetas(MetaData param) throws SQLException;
+
+    int emailToId(User param) throws SQLException;
 }
