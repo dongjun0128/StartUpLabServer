@@ -60,7 +60,7 @@
         <where> 
             <if test="assignment_id == 0"> 1=1 </if>
             <if test="assignment_id != 0"> and u.assignment_id = #{assignment_id} </if>
-            <if test="user_type != 0"> and u.user_type = #{user_type} </if>
+            and u.user_type = 2
         </where>
         
     </select>
