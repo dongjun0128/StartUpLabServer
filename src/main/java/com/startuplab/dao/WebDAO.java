@@ -7,10 +7,12 @@ import com.startuplab.common.vo.MetaData;
 import com.startuplab.common.vo.SearchKeyWord;
 import com.startuplab.common.vo.SearchParam;
 import com.startuplab.common.vo.WorkDistribute;
+import com.startuplab.vo.Assignment;
 import com.startuplab.vo.Code;
 import com.startuplab.vo.Datas;
 import com.startuplab.vo.Fcm;
 import com.startuplab.vo.User;
+import com.startuplab.vo.Work;
 
 public interface WebDAO {
 
@@ -53,4 +55,8 @@ public interface WebDAO {
     List<MetaData> selectMetas(MetaData param) throws SQLException;
 
     int emailToId(User param) throws SQLException;
+    
+    List<Assignment> selectAllAssignment(Assignment param) throws SQLException;
+    
+    List<Work> selectAllWork(Work param) throws SQLException;
 }

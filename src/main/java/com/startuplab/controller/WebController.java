@@ -27,8 +27,11 @@ import com.startuplab.common.vo.WorkDistribute;
 import com.startuplab.config.oauth2.CurrentUser;
 import com.startuplab.service.ApiService;
 import com.startuplab.service.CommonService;
+import com.startuplab.vo.Assignment;
 import com.startuplab.vo.Datas;
 import com.startuplab.vo.User;
+import com.startuplab.vo.Work;
+
 import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
@@ -356,9 +359,7 @@ public class WebController {
             }
             result.setMyError(sr.getMyException());
 
-        } catch (MyException e) {
-            result.setMyError(e);
-        } catch (Exception e) {
+        }  catch (Exception e) {
             result.setMyError();
             e.printStackTrace();
         }
@@ -366,4 +367,42 @@ public class WebController {
         return result;
     }
 
+
+    @RequestMapping(value = "/all/assignments")
+    @ResponseBody
+    public ApiResult selectAllAssignment(HttpServletRequest request, @RequestBody(required = false) Assignment param) {
+        ApiResult result = new ApiResult();
+        try {
+            ServiceResult sr = service.selectAllAssignment(param);
+            if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
+                result.addData("data", sr.getData());
+            }
+            result.setMyError(sr.getMyException());
+
+        }  catch (Exception e) {
+            result.setMyError();
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @RequestMapping(value = "/all/works")
+    @ResponseBody
+    public ApiResult selectAllWork(HttpServletRequest request, @RequestBody(required = false) Work param) {
+        ApiResult result = new ApiResult();
+        try {
+            ServiceResult sr = service.selectAllWork(param);
+            if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
+                result.addData("data", sr.getData());
+            }
+            result.setMyError(sr.getMyException());
+
+        }  catch (Exception e) {
+            result.setMyError();
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 }

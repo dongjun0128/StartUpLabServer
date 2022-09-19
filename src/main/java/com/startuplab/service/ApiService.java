@@ -20,10 +20,13 @@ import com.startuplab.common.vo.SearchKeyWord;
 import com.startuplab.common.vo.SearchParam;
 import com.startuplab.common.vo.ServiceResult;
 import com.startuplab.common.vo.WorkDistribute;
+import com.startuplab.vo.Assignment;
 import com.startuplab.vo.Code;
 import com.startuplab.vo.Datas;
 import com.startuplab.vo.Fcm;
 import com.startuplab.vo.User;
+import com.startuplab.vo.Work;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -339,5 +342,34 @@ public class ApiService {
     }
     return sr;
   }
+  
+  public ServiceResult selectAllAssignment(Assignment vo) {
+    ServiceResult sr = new ServiceResult();
+    try {
+      List<Assignment> list = web.selectAllAssignment(vo);
+      sr.setData(list);
+      sr.setMyException(new MyException(MyError.SUCCESS));
+    } catch (DuplicateKeyException e) {
+      sr.setMyException(new MyException("Duplicate meta."));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return sr;
+  }
+
+  public ServiceResult selectAllWork(Work vo) {
+    ServiceResult sr = new ServiceResult();
+    try {
+      List<Work> list = web.selectAllWork(vo);
+      sr.setData(list);
+      sr.setMyException(new MyException(MyError.SUCCESS));
+    } catch (DuplicateKeyException e) {
+      sr.setMyException(new MyException("Duplicate meta."));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return sr;
+  }
+
 
 }

@@ -16,10 +16,13 @@ import com.startuplab.common.vo.SearchParam;
 import com.startuplab.common.vo.WorkDistribute;
 import com.startuplab.dao.CommonDAO;
 import com.startuplab.dao.WebDAO;
+import com.startuplab.vo.Assignment;
 import com.startuplab.vo.Code;
 import com.startuplab.vo.Datas;
 import com.startuplab.vo.Fcm;
 import com.startuplab.vo.User;
+import com.startuplab.vo.Work;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -104,6 +107,15 @@ public class WebService {
     public int emailToId(User param) throws SQLException {
         WebDAO dao = sqlSession.getMapper(WebDAO.class);
         return dao.emailToId(param);
+    }        
+    public List<Assignment> selectAllAssignment(Assignment param) throws SQLException {
+        WebDAO dao = sqlSession.getMapper(WebDAO.class);
+        return dao.selectAllAssignment(param);
+    }
+
+    public List<Work> selectAllWork(Work param) throws SQLException {
+        WebDAO dao = sqlSession.getMapper(WebDAO.class);
+        return dao.selectAllWork(param);
     }
 
 }

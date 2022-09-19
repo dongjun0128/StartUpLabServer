@@ -57,6 +57,10 @@
         , fn_get_code_name('user_type', u.user_type) user_type_name
 		, fn_get_code_name('user_status', u.user_status) user_status_name
         from users u
+        <where> 
+            <if test="assignment_id == 0"> 1=1 </if>
+            <if test="assignment_id != 0"> and u.assignment_id = #{assignment_id} </if>
+        </where>
         
     </select>
 
@@ -117,6 +121,18 @@
         <where>
             and m.work_id = #{work_id}
         </where>
+    </select>
+    <!-- selectUser 끝 -->
+    <!-- selectUser 시작 -->
+    <select id="selectAllAssignment" resultType="com.startuplab.vo.Assignment" parameterType="com.startuplab.common.vo.MetaData">
+        select a.*     
+        from assignments a
+    </select>
+    <!-- selectUser 끝 -->
+    <!-- selectUser 시작 -->
+    <select id="selectAllWork" resultType="com.startuplab.vo.Work" parameterType="com.startuplab.common.vo.MetaData">
+        select w.*     
+        from works w
     </select>
     <!-- selectUser 끝 -->
 
