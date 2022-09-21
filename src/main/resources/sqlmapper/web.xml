@@ -134,6 +134,9 @@
     <select id="selectAllWork" resultType="com.startuplab.vo.Work" parameterType="com.startuplab.common.vo.MetaData">
         select w.*     
         from works w
+        <where> 
+            <if test="assignment_id != null">and w.assignment_id = #{assignment_id}</if>           
+        </where>
     </select>
     <!-- selectUser 끝 -->
 
