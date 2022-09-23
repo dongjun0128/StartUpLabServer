@@ -70,8 +70,7 @@
     <update id="workDistribute">
         UPDATE datas
         <set>
-            user_id = #{user_id}
-            and data_status = 2
+            user_id = #{user_id}, data_status = 2
         </set>
         WHERE
         <foreach collection="idsArray" item="data" separator="OR">
