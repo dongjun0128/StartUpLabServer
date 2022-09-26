@@ -60,6 +60,8 @@
         <where> 
             <if test="assignment_id == 0"> 1=1 </if>
             <if test="assignment_id != 0"> and u.assignment_id = #{assignment_id} </if>
+            <if test="user_status == 0"> and u.user_status = 0 </if>
+            <if test="user_status != 0"> and u.user_status = #{user_status} </if>
             and u.user_type = 2
         </where>
         
