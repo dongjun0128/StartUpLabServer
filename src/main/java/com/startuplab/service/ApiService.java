@@ -263,7 +263,7 @@ public class ApiService {
       for (int assignment_id = 1; assignment_id < 5; assignment_id++) {
         JSONObject dbNums = new JSONObject();
         dbNums.put("assignment_id", assignment_id);
-        for (int data_status = 1; data_status < 5; data_status++) {
+        for (int data_status = 1; data_status < 7; data_status++) {
           dbNums.put("data_status" + data_status, web.selectAssignmentDatasNum(assignment_id, data_status));
         }
         dbNumsArry.add(dbNums);
