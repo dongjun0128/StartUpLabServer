@@ -1,17 +1,16 @@
 package com.startuplab.service;
 
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.multipart.MultipartFile;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import com.startuplab.common.exception.MyException;
 import com.startuplab.common.exception.MyException.MyError;
 import com.startuplab.common.vo.FileUploadVo;
@@ -26,7 +25,6 @@ import com.startuplab.vo.Datas;
 import com.startuplab.vo.Fcm;
 import com.startuplab.vo.User;
 import com.startuplab.vo.Work;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -342,7 +340,7 @@ public class ApiService {
     }
     return sr;
   }
-  
+
   public ServiceResult selectAllAssignment(Assignment vo) {
     ServiceResult sr = new ServiceResult();
     try {
@@ -371,5 +369,20 @@ public class ApiService {
     return sr;
   }
 
+  public ServiceResult getUserListForPaging(SearchParam param) {
+    ServiceResult sr = new ServiceResult();
+    try {
+      List<User> list = new ArrayList<>();
+      int total_count = common.getUserListTotalCount(param);
+      if (total_count > 0) {
+        list = common.getUserList(param);
+      }
+      sr.addPagingData(total_count, list);
+      sr.setMyException(new MyException(MyError.SUCCESS));
+    } catch (Exception e) {
+      log.error("Exception: {}", e.getMessage());
+    }
+    return sr;
+  }
 
 }

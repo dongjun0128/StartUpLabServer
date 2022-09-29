@@ -21,6 +21,8 @@ public interface CommonDAO {
 
     int updateUser(User param) throws SQLException;
 
+    int getUserListTotalCount(SearchParam param) throws SQLException;
+
     List<User> getUserList(SearchParam param) throws SQLException;
 
     List<Fcm> getFcmList(SearchParam param) throws SQLException;

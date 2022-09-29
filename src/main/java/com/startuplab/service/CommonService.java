@@ -114,4 +114,10 @@ public class CommonService {
     CommonDAO dao = sqlSession.getMapper(CommonDAO.class);
     return dao.getCodeList(param);
   }
+
+  public int getUserListTotalCount(SearchParam param) throws SQLException {
+    CommonDAO dao = sqlSession.getMapper(CommonDAO.class);
+    return dao.getUserListTotalCount(param);
+  }
+
 }

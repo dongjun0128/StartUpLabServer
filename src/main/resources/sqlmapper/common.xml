@@ -68,6 +68,13 @@
             <if test="user_email != null and user_email !='' "> and u.user_email = #{user_email} </if>
         </where>
     </sql>
+
+    <select id="getUserListTotalCount" resultType="Integer" parameterType="com.startuplab.common.vo.SearchParam">
+        select count(*)
+		from users u
+        <include refid="where_user_list" />
+    </select>
+
     <select id="getUserList" resultType="com.startuplab.vo.User" parameterType="com.startuplab.common.vo.SearchParam">
         select u.*
 		, fn_get_code_name('user_type', u.user_type) user_type_name
@@ -75,6 +82,7 @@
 		from users u
         <include refid="where_user_list" />
         order by u.user_id
+        <if test="row_start != null"> limit ${row_start}, ${row_count} </if>
     </select>
 
     <select id="getFcmList" resultType="com.startuplab.vo.Fcm" parameterType="com.startuplab.common.vo.SearchParam">

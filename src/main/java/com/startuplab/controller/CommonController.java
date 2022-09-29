@@ -236,4 +236,41 @@ public class CommonController {
     }
     return result;
   }
+
+  @RequestMapping(value = "/user/list")
+  @ResponseBody
+  public ApiResult getUserList(HttpServletRequest request, @RequestBody(required = false) SearchParam param) throws Exception {
+    ApiResult result = new ApiResult();
+    try {
+
+      // 화면에서 Paging을 위한 데이터 요청은 row_count, page_no를 변수로 받아야 한다.
+      // row_count: 한번에 보여줄 데이터 갯수
+      // page_no: 현재 page 번호
+      // row_start: row_count와 page_no로 계산된 검색 시작갯수
+
+      if (param == null)
+        param = new SearchParam();
+      if (param.get("row_count") == null) {
+        param.add("row_count", CValue.default_row_count);
+      }
+
+      if (param.get("page_no") == null) {
+        param.add("page_no", CValue.default_page_no);
+      }
+      Integer row_start = (CUtil.objectToInteger(param.get("page_no")) - 1) * CUtil.objectToInteger(param.get("row_count"));
+      param.add("row_start", row_start.toString());
+
+      ServiceResult sr = service.getUserListForPaging(param);
+      if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
+        result.setData(sr.getData());
+      }
+      result.setMyError(sr.getMyException());
+
+    } catch (Exception e) {
+      result.setMyError();
+      e.printStackTrace();
+    }
+    return result;
+  }
+
 }
