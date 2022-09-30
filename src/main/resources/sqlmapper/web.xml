@@ -99,6 +99,7 @@
         <where>
             and d.work_id = #{work_id}
             and d.data_status = #{data_status}
+            <if test="user_id != 0">and d.user_id = #{user_id}</if>
         </where>
     </select>
     <!-- selectWorkDatasNum 끝 -->
@@ -112,6 +113,7 @@
             json_extract(data_json, concat('$."',#{columnName},'"')) like concat('%',#{keyword},'%')
             and work_id = #{work_id}
             and data_status = #{data_status}
+            
         </where>
     </select>
     <!-- searchDatas 끝 -->
@@ -149,7 +151,6 @@
         </where>
     </select>
     <!-- eamilToId 끝 -->
-
 </mapper>
 <!-- <where>  select usermapper
     <if test="assignment_id == 0"> 1=1 </if>

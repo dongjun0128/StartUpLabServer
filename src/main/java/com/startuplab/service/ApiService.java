@@ -285,7 +285,7 @@ public class ApiService {
       JSONObject dbNums = new JSONObject();
       dbNums.put("work_id", param.getWork_id());
       for (int data_status = 1; data_status < 5; data_status++) {
-        dbNums.put("data_status" + data_status, web.selectWorkDatasNum(param.getWork_id(), data_status));
+        dbNums.put("data_status" + data_status, web.selectWorkDatasNum(param.getWork_id(), data_status, param.getUser_id()));
       }
       sr.setData(dbNums);
       sr.setMyException(new MyException(MyError.SUCCESS));

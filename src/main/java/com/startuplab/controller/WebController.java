@@ -386,7 +386,6 @@ public class WebController {
 
         return result;
     }
-
     @RequestMapping(value = "/all/works")
     @ResponseBody
     public ApiResult selectAllWork(HttpServletRequest request, @RequestBody(required = false) Work param) {
