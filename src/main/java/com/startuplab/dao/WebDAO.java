@@ -55,8 +55,10 @@ public interface WebDAO {
     List<MetaData> selectMetas(MetaData param) throws SQLException;
 
     int emailToId(User param) throws SQLException;
-    
+
     List<Assignment> selectAllAssignment(Assignment param) throws SQLException;
-    
+
     List<Work> selectAllWork(Work param) throws SQLException;
+
+    int getSelectDatasCount(Datas param) throws SQLException;
 }

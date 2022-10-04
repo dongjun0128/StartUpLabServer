@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.poi.sl.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -114,22 +117,40 @@ public class WebController {
     public ApiResult dbSelect(HttpServletRequest request, @RequestBody(required = false) Datas param) {
         ApiResult result = new ApiResult();
         try {
-            log.info("param:{}", param);
+
+            // 화면에서 Paging을 위한 데이터 요청은 row_count, page_no를 변수로 받아야 한다.
+            // row_count: 한번에 보여줄 데이터 갯수
+            // page_no: 현재 page 번호
+            // row_start: row_count와 page_no로 계산된 검색 시작갯수
+
             if (param == null) {
                 throw new MyException("요청 내용이 없습니다.");
             }
 
             if (param.getData_status() == 0) {
-                throw new MyException("필수 파라미터인 status를 입력해주세요!");
+                throw new MyException("필수 파라미터인 Data_status를 입력해주세요!");
             }
 
             if (param.getWork_id() == 0) {
                 throw new MyException("필수 파라미터인 work_id 입력해주세요!");
             }
 
+            if (param.getRow_count() == 0) {
+                param.setRow_count(CValue.default_row_count);
+            }
+
+            if (param.getPage_no() == 0) {
+                param.setPage_no(CValue.default_page_no);
+            }
+
+            Integer row_start = (CUtil.objectToInteger(param.getPage_no()) - 1) * CUtil.objectToInteger(param.getRow_count());
+            param.setRow_start(row_start.toString());
+
+            log.info("param:{}", param);
+
             ServiceResult sr = service.dbSelect(param);
             if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
-                result.addData("data", sr.getData());
+                result.setData(sr.getData());
             }
             result.setMyError(sr.getMyException());
 
@@ -359,14 +380,13 @@ public class WebController {
             }
             result.setMyError(sr.getMyException());
 
-        }  catch (Exception e) {
+        } catch (Exception e) {
             result.setMyError();
             e.printStackTrace();
         }
 
         return result;
     }
-
 
     @RequestMapping(value = "/all/assignments")
     @ResponseBody
@@ -379,7 +399,7 @@ public class WebController {
             }
             result.setMyError(sr.getMyException());
 
-        }  catch (Exception e) {
+        } catch (Exception e) {
             result.setMyError();
             e.printStackTrace();
         }
@@ -398,7 +418,40 @@ public class WebController {
             }
             result.setMyError(sr.getMyException());
 
-        }  catch (Exception e) {
+        } catch (Exception e) {
+            result.setMyError();
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @RequestMapping(value = "/execel/to/db")
+    @ResponseBody
+    public ApiResult excelToDb(HttpServletRequest request, MultipartFile file) {
+        ApiResult result = new ApiResult();
+        log.info("execelToId 시작");
+        log.info("{}, {}, {}, {}", file.getContentType(), file.getSize(), file.getName(), file.getClass());
+
+        try {
+            Workbook workbook = null;
+            workbook = new XSSFWorkbook(file.getInputStream());
+
+            // Sheet worksheet = workbook.getSheetAt(0);
+
+            // for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) { // 4
+
+            // Row row = worksheet.getRow(i);
+
+            // ExcelData data = new ExcelData();
+
+            // data.setNum((int) row.getCell(0).getNumericCellValue());
+            // data.setName(row.getCell(1).getStringCellValue());
+            // data.setEmail(row.getCell(2).getStringCellValue());
+
+            // dataList.add(data);
+            // }
+        } catch (Exception e) {
             result.setMyError();
             e.printStackTrace();
         }

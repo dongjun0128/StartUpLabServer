@@ -74,6 +74,11 @@ public class WebService {
         return dao.selectDatas(param);
     }
 
+    public int getSelectDatasCount(Datas param) throws SQLException {
+        WebDAO dao = sqlSession.getMapper(WebDAO.class);
+        return dao.getSelectDatasCount(param);
+    }
+
     public List<User> selectUser(User param) throws SQLException {
         WebDAO dao = sqlSession.getMapper(WebDAO.class);
         return dao.selectUser(param);
@@ -107,7 +112,8 @@ public class WebService {
     public int emailToId(User param) throws SQLException {
         WebDAO dao = sqlSession.getMapper(WebDAO.class);
         return dao.emailToId(param);
-    }        
+    }
+
     public List<Assignment> selectAllAssignment(Assignment param) throws SQLException {
         WebDAO dao = sqlSession.getMapper(WebDAO.class);
         return dao.selectAllAssignment(param);

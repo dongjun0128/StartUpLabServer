@@ -39,6 +39,15 @@
     <!-- updateDatas 끝 -->
     <!-- selectDatas 시작 -->
 
+    <select id="getSelectDatasCount" resultType="Integer" parameterType="com.startuplab.vo.Datas">
+        select count(*)
+		from datas d
+        <where>
+            and d.work_id = #{work_id}
+            <if test="data_status != 0"> and d.data_status = #{data_status} </if>
+        </where>
+    </select>
+
     <select id="selectDatas" resultType="com.startuplab.vo.Datas" parameterType="com.startuplab.vo.Datas">
         select d.*  
 		, fn_get_code_name('data_status', d.data_status) data_status_name    
@@ -49,6 +58,8 @@
             <if test="user_id != 0"> and d.user_id = #{user_id} </if>
             <if test="data_status != 0"> and d.data_status = #{data_status} </if>
         </where>
+
+        <if test="row_start != null"> limit ${row_start}, ${row_count} </if>
     </select>
 
     <!-- selectUser 시작 -->
@@ -149,6 +160,8 @@
         </where>
     </select>
     <!-- eamilToId 끝 -->
+
+    
 
 </mapper>
 <!-- <where>  select usermapper

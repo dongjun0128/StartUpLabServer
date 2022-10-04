@@ -17,6 +17,9 @@ public class Datas {
     private int data_status;
     private LocalDateTime create_time;
     private LocalDateTime update_time;
+    private int row_count;
+    private int page_no;
+    private String row_start;
 
     private String data_status_name;
 }

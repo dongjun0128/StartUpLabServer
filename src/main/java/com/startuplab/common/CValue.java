@@ -47,7 +47,7 @@ public class CValue {
   public static final String reg_UserId = "\\S{4,}";
   public static final String reg_oreProductName = "*\\&*";
 
-  public static final int default_row_count = 20;
+  public static final int default_row_count = 100;
   public static final int default_page_no = 1;
 
   public static final int code_user_type_admin = 1;

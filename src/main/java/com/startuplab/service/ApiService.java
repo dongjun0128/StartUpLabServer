@@ -1,8 +1,15 @@
 package com.startuplab.service;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -210,8 +217,12 @@ public class ApiService {
   public ServiceResult dbSelect(Datas vo) {
     ServiceResult sr = new ServiceResult();
     try {
-      List<Datas> list = web.selectDatas(vo);
-      sr.setData(list);
+      List<Datas> list = new ArrayList<>();
+      int total_count = web.getSelectDatasCount(vo);
+      if (total_count > 0) {
+        list = web.selectDatas(vo);
+      }
+      sr.addPagingData(total_count, list);
       sr.setMyException(new MyException(MyError.SUCCESS));
 
     } catch (DuplicateKeyException e) {
@@ -385,4 +396,92 @@ public class ApiService {
     return sr;
   }
 
+  public ServiceResult excelToDb() {
+    ServiceResult sr = new ServiceResult();
+    try {
+      String filePath = "C:/Users/LG/Desktop/api/excel";
+      String fileNm = "통합 문서 1.xlsx";
+
+      FileInputStream file = new FileInputStream(new File(filePath, fileNm));
+
+      // 엑셀 파일로 Workbook instance를 생성한다.
+      XSSFWorkbook workbook = new XSSFWorkbook(file);
+
+      // workbook의 첫번째 sheet를 가저온다.
+      XSSFSheet sheet = workbook.getSheetAt(0);
+
+      // 만약 특정 이름의 시트를 찾는다면 workbook.getSheet("찾는 시트의 이름");
+      // 만약 모든 시트를 순회하고 싶으면
+      // for(Integer sheetNum : workbook.getNumberOfSheets()) {
+      // XSSFSheet sheet = workbook.getSheetAt(i);
+      // }
+      // 아니면 Iterator<Sheet> s = workbook.iterator() 를 사용해서 조회해도 좋다.
+
+      // 모든 행(row)들을 조회한다.
+      Iterator<Row> rowIterator = sheet.iterator();
+
+      int columnCheck = 0;
+      ArrayList<String> columnList = new ArrayList<>();
+      ArrayList<String> dataList = new ArrayList<>();
+
+      // json으로 넣을 데이터
+      JSONObject datas = new JSONObject();
+
+      while (rowIterator.hasNext()) {
+        Row row = rowIterator.next();
+
+        // 각각의 행에 존재하는 모든 열(cell)을 순회한다.
+        Iterator<Cell> cellIterator = row.cellIterator();
+
+        int columnindex = 0;
+        // int cells = row.getPhysicalNumberOfCells();
+        int cells = sheet.getRow(0).getPhysicalNumberOfCells();
+
+        for (columnindex = 0; columnindex <= cells; columnindex++) {
+          // 셀값을 읽는다
+          Cell cell = row.getCell(columnindex);
+          String value = "";
+
+          // 셀이 빈값일경우를 위한 널체크
+          if (cell != null) {
+
+            // 타입별로 내용 읽기
+            switch (cell.getCellType()) {
+              case FORMULA:
+                value = cell.getCellFormula();
+                break;
+              case NUMERIC:
+                value = cell.getNumericCellValue() + "";
+                break;
+              case STRING:
+                value = cell.getStringCellValue() + "";
+                break;
+              case BOOLEAN:
+                value = cell.getBooleanCellValue() + "";
+                break;
+              case ERROR:
+                value = cell.getErrorCellValue() + "";
+                break;
+              default:
+                break;
+            }
+
+          }
+
+          log.info("{},{}", columnindex, value);
+
+          System.out.println();
+          columnCheck++;
+        }
+      }
+      file.close();
+
+      sr.setMyException(new MyException(MyError.SUCCESS));
+    } catch (DuplicateKeyException e) {
+      sr.setMyException(new MyException("Duplicate meta."));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return sr;
+  }
 }
