@@ -23,7 +23,7 @@ public class ServiceResult {
 
   public void addPagingData(Integer total_count, Object list) {
     addData("total_count", total_count);
-    addData("list", list);
+    addData("data", list);
   }
 
   public Object getParam(String key) {
