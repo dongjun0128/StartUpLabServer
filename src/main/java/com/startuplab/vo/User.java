@@ -19,6 +19,10 @@ public class User implements Serializable {
   private LocalDateTime create_time;
   private LocalDateTime update_time;
 
+  private int row_count;
+  private int page_no;
+  private String row_start;
+
   private String user_type_name;
   private String user_status_name;
 

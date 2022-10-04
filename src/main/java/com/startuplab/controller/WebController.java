@@ -200,6 +200,17 @@ public class WebController {
         try {
             log.info("param:{}", param);
 
+            if (param.getRow_count() == 0) {
+                param.setRow_count(CValue.default_row_count);
+            }
+
+            if (param.getPage_no() == 0) {
+                param.setPage_no(CValue.default_page_no);
+            }
+
+            Integer row_start = (CUtil.objectToInteger(param.getPage_no()) - 1) * CUtil.objectToInteger(param.getRow_count());
+            param.setRow_start(row_start.toString());
+
             ServiceResult sr = service.userSelect(param);
             if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
                 result.addData("user", sr.getData());
@@ -406,6 +417,7 @@ public class WebController {
 
         return result;
     }
+
     @RequestMapping(value = "/all/works")
     @ResponseBody
     public ApiResult selectAllWork(HttpServletRequest request, @RequestBody(required = false) Work param) {

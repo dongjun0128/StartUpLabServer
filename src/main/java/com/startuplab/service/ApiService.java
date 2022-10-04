@@ -217,12 +217,12 @@ public class ApiService {
   public ServiceResult dbSelect(Datas vo) {
     ServiceResult sr = new ServiceResult();
     try {
-      List<Datas> list = new ArrayList<>();
+      List<Datas> data = new ArrayList<>();
       int total_count = web.getSelectDatasCount(vo);
       if (total_count > 0) {
-        list = web.selectDatas(vo);
+        data = web.selectDatas(vo);
       }
-      sr.addPagingData(total_count, list);
+      sr.addPagingData(total_count, data);
       sr.setMyException(new MyException(MyError.SUCCESS));
 
     } catch (DuplicateKeyException e) {
