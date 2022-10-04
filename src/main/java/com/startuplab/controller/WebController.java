@@ -85,7 +85,8 @@ public class WebController {
 
     @RequestMapping(value = "/db/edit")
     @ResponseBody
-    public ApiResult editDatas(HttpServletRequest request, @RequestBody(required = false) Datas param) throws Exception {
+    public ApiResult editDatas(HttpServletRequest request, @RequestBody(required = false) Datas param)
+            throws Exception {
         ApiResult result = new ApiResult();
 
         try {
@@ -143,7 +144,8 @@ public class WebController {
                 param.setPage_no(CValue.default_page_no);
             }
 
-            Integer row_start = (CUtil.objectToInteger(param.getPage_no()) - 1) * CUtil.objectToInteger(param.getRow_count());
+            Integer row_start = (CUtil.objectToInteger(param.getPage_no()) - 1)
+                    * CUtil.objectToInteger(param.getRow_count());
             param.setRow_start(row_start.toString());
 
             log.info("param:{}", param);
@@ -179,7 +181,7 @@ public class WebController {
 
             ServiceResult sr = service.dbSelect(param);
             if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
-                result.addData("data", sr.getData());
+                result.setData(sr.getData());
             }
             result.setMyError(sr.getMyException());
 
@@ -199,17 +201,6 @@ public class WebController {
 
         try {
             log.info("param:{}", param);
-
-            if (param.getRow_count() == 0) {
-                param.setRow_count(CValue.default_row_count);
-            }
-
-            if (param.getPage_no() == 0) {
-                param.setPage_no(CValue.default_page_no);
-            }
-
-            Integer row_start = (CUtil.objectToInteger(param.getPage_no()) - 1) * CUtil.objectToInteger(param.getRow_count());
-            param.setRow_start(row_start.toString());
 
             ServiceResult sr = service.userSelect(param);
             if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
