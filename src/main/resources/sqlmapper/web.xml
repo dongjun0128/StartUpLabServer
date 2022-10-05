@@ -8,7 +8,7 @@
          SELECT LAST_INSERT_ID()
       </selectKey>
         INSERT INTO datas (work_id, assignment_id,data_json, user_id, data_status, create_time, update_time)
-        <if test="data_status == 4">VALUES (#{work_id}, #{assignment_id}, #{data_json}, 0, #{data_status}, now(), now())</if>
+        <if test="data_status == 4">VALUES (#{work_id}, #{assignment_id}, #{data_json}, -1, #{data_status}, now(), now())</if>
         <if test="data_status != 4">VALUES (#{work_id}, #{assignment_id}, #{data_json}, #{user_id}, #{data_status}, now(), now())</if>
     </insert>
 
@@ -55,7 +55,7 @@
         select d.*  
 		, fn_get_code_name('data_status', d.data_status) data_status_name    
         from datas d
-        <where>
+        <where> 
             and d.work_id = #{work_id}
             <if test="data_id != 0"> and d.data_id = #{data_id} </if>
             <if test="user_id != 0"> and d.user_id = #{user_id} </if>
