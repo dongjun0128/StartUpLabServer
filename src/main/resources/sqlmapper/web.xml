@@ -8,7 +8,8 @@
          SELECT LAST_INSERT_ID()
       </selectKey>
         INSERT INTO datas (work_id, assignment_id,data_json, user_id, data_status, create_time, update_time)
-        VALUES (#{work_id}, #{assignment_id}, #{data_json}, #{user_id}, #{data_status}, now(), now())
+        <if test="data_status == 4">VALUES (#{work_id}, #{assignment_id}, #{data_json}, 0, #{data_status}, now(), now())</if>
+        <if test="data_status != 4">VALUES (#{work_id}, #{assignment_id}, #{data_json}, #{user_id}, #{data_status}, now(), now())</if>
     </insert>
 
     <sql id="where_datas_list">
@@ -85,7 +86,7 @@
     <update id="workDistribute">
         UPDATE datas
         <set>
-            user_id = #{user_id}, data_status = 2, update_time = now()
+            user_id = #{user_id}, data_status = #{data_status}, update_time = now()
         </set>
         WHERE
         <foreach collection="idsArray" item="data" separator="OR">
