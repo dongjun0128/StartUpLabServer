@@ -4,12 +4,14 @@ import java.sql.SQLException;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.apache.ibatis.session.SqlSession;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.google.api.client.util.Data;
+import com.google.gson.Gson;
 import com.startuplab.common.vo.MetaData;
 import com.startuplab.common.vo.SearchKeyWord;
 import com.startuplab.common.vo.SearchParam;
@@ -19,6 +21,7 @@ import com.startuplab.dao.WebDAO;
 import com.startuplab.vo.Assignment;
 import com.startuplab.vo.Code;
 import com.startuplab.vo.Datas;
+import com.startuplab.vo.Excel;
 import com.startuplab.vo.Fcm;
 import com.startuplab.vo.User;
 import com.startuplab.vo.Work;
@@ -124,4 +127,14 @@ public class WebService {
         return dao.selectAllWork(param);
     }
 
+    public void excelToDb(Object object, int assignment_id, int work_id) throws SQLException {
+        Gson gson = new Gson();
+        WebDAO dao = sqlSession.getMapper(WebDAO.class);
+        Excel excel = new Excel();
+        excel.setData(gson.toJson(object));
+        excel.setAssignment_id(assignment_id);
+        excel.setWork_id(work_id);
+
+        dao.excelToDb(excel);
+    }
 }

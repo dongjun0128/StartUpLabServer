@@ -2,6 +2,8 @@ package com.startuplab.dao;
 
 import java.sql.SQLException;
 import java.util.List;
+
+import org.json.simple.JSONObject;
 import org.springframework.jdbc.support.MetaDataAccessException;
 import com.startuplab.common.vo.MetaData;
 import com.startuplab.common.vo.SearchKeyWord;
@@ -10,6 +12,7 @@ import com.startuplab.common.vo.WorkDistribute;
 import com.startuplab.vo.Assignment;
 import com.startuplab.vo.Code;
 import com.startuplab.vo.Datas;
+import com.startuplab.vo.Excel;
 import com.startuplab.vo.Fcm;
 import com.startuplab.vo.User;
 import com.startuplab.vo.Work;
@@ -61,4 +64,6 @@ public interface WebDAO {
     List<Work> selectAllWork(Work param) throws SQLException;
 
     int getSelectDatasCount(Datas param) throws SQLException;
+
+    void excelToDb(Excel param) throws SQLException;
 }

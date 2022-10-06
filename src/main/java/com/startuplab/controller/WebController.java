@@ -1,11 +1,18 @@
 package com.startuplab.controller;
 
+import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import org.apache.poi.sl.usermodel.Sheet;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -430,29 +437,14 @@ public class WebController {
 
     @RequestMapping(value = "/execel/to/db")
     @ResponseBody
-    public ApiResult excelToDb(HttpServletRequest request, MultipartFile file) {
+    public ApiResult excelToDb(HttpServletRequest request, MultipartFile file, int assignment_id, int work_id) {
         ApiResult result = new ApiResult();
         log.info("execelToId 시작");
         log.info("{}, {}, {}, {}", file.getContentType(), file.getSize(), file.getName(), file.getClass());
-
+        log.info("{}, {}", assignment_id, work_id);
         try {
-            Workbook workbook = null;
-            workbook = new XSSFWorkbook(file.getInputStream());
-
-            // Sheet worksheet = workbook.getSheetAt(0);
-
-            // for (int i = 1; i < worksheet.getPhysicalNumberOfRows(); i++) { // 4
-
-            // Row row = worksheet.getRow(i);
-
-            // ExcelData data = new ExcelData();
-
-            // data.setNum((int) row.getCell(0).getNumericCellValue());
-            // data.setName(row.getCell(1).getStringCellValue());
-            // data.setEmail(row.getCell(2).getStringCellValue());
-
-            // dataList.add(data);
-            // }
+            ServiceResult sr = service.excelToDb(file, assignment_id, work_id);
+            result.setMyError(sr.getMyException());
         } catch (Exception e) {
             result.setMyError();
             e.printStackTrace();

@@ -8,6 +8,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.simple.JSONArray;
@@ -296,7 +298,8 @@ public class ApiService {
       JSONObject dbNums = new JSONObject();
       dbNums.put("work_id", param.getWork_id());
       for (int data_status = 1; data_status < 7; data_status++) {
-        dbNums.put("data_status" + data_status, web.selectWorkDatasNum(param.getWork_id(), data_status, param.getUser_id()));
+        dbNums.put("data_status" + data_status,
+            web.selectWorkDatasNum(param.getWork_id(), data_status, param.getUser_id()));
       }
       sr.setData(dbNums);
       sr.setMyException(new MyException(MyError.SUCCESS));
@@ -396,47 +399,71 @@ public class ApiService {
     return sr;
   }
 
-  public ServiceResult excelToDb() {
+  public ServiceResult excelToDb(MultipartFile file, int assignment_id, int work_id) {
     ServiceResult sr = new ServiceResult();
+    Workbook workbook = null;
+
     try {
-      String filePath = "C:/Users/LG/Desktop/api/excel";
-      String fileNm = "통합 문서 1.xlsx";
-
-      FileInputStream file = new FileInputStream(new File(filePath, fileNm));
-
-      // 엑셀 파일로 Workbook instance를 생성한다.
-      XSSFWorkbook workbook = new XSSFWorkbook(file);
-
-      // workbook의 첫번째 sheet를 가저온다.
-      XSSFSheet sheet = workbook.getSheetAt(0);
-
-      // 만약 특정 이름의 시트를 찾는다면 workbook.getSheet("찾는 시트의 이름");
-      // 만약 모든 시트를 순회하고 싶으면
-      // for(Integer sheetNum : workbook.getNumberOfSheets()) {
-      // XSSFSheet sheet = workbook.getSheetAt(i);
-      // }
-      // 아니면 Iterator<Sheet> s = workbook.iterator() 를 사용해서 조회해도 좋다.
-
-      // 모든 행(row)들을 조회한다.
-      Iterator<Row> rowIterator = sheet.iterator();
-
+      JSONArray dataJsonArry = new JSONArray();
+      List<String> columnList = null;
       int columnCheck = 0;
-      ArrayList<String> columnList = new ArrayList<>();
-      ArrayList<String> dataList = new ArrayList<>();
+      int rowindex = 0;
+      int sheetNo = 0;
 
-      // json으로 넣을 데이터
-      JSONObject datas = new JSONObject();
+      workbook = new XSSFWorkbook(file.getInputStream());
 
-      while (rowIterator.hasNext()) {
-        Row row = rowIterator.next();
+      // 시트 수 (첫번째에만 존재하므로 0을 준다)
+      // 만약 각 시트를 읽기위해서는 FOR문을 한번더 돌려준다
+      Sheet sheet = workbook.getSheetAt(sheetNo);
 
-        // 각각의 행에 존재하는 모든 열(cell)을 순회한다.
-        Iterator<Cell> cellIterator = row.cellIterator();
+      // 행의 수
+      int rows = sheet.getPhysicalNumberOfRows();
+      // 읽을 셀수 (첫번째 행의 셀수만큼만 읽는다.)
+      int cells = sheet.getRow(0).getPhysicalNumberOfCells();
 
+      for (rowindex = 0; rowindex < rows; rowindex++) {
+        // 행을읽는다
+        Row row = sheet.getRow(rowindex);
+        List<String> rowData = readRow(row, cells);
+
+        // 칼럼만 따로 저장
+        if (columnCheck == 0) {
+          columnList = rowData;
+          columnCheck += 1;
+        }
+
+        // 데이터면 JSON으로 만들기
+        else {
+          JSONObject dataJson = new JSONObject();
+          for (int i = 0; i < rowData.size() - 1; i++) {
+            dataJson.put(columnList.get(i), rowData.get(i));
+          }
+          dataJsonArry.add(dataJson);
+        }
+      }
+
+      for (int idx = 0; idx < dataJsonArry.size(); idx++) {
+        web.excelToDb(dataJsonArry.get(idx), assignment_id, work_id);
+      }
+
+      workbook.close();
+
+      sr.setMyException(new MyException(MyError.SUCCESS));
+    } catch (DuplicateKeyException e) {
+      sr.setMyException(new MyException("Duplicate meta."));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return sr;
+  }
+
+  private List<String> readRow(Row row, int cells) {
+    List<String> result = new ArrayList<>();
+    try {
+      if (row != null) {
+        // 셀의 수
         int columnindex = 0;
         // int cells = row.getPhysicalNumberOfCells();
-        int cells = sheet.getRow(0).getPhysicalNumberOfCells();
-
         for (columnindex = 0; columnindex <= cells; columnindex++) {
           // 셀값을 읽는다
           Cell cell = row.getCell(columnindex);
@@ -467,21 +494,13 @@ public class ApiService {
             }
 
           }
-
-          log.info("{},{}", columnindex, value);
-
-          System.out.println();
-          columnCheck++;
+          result.add(value);
         }
       }
-      file.close();
-
-      sr.setMyException(new MyException(MyError.SUCCESS));
-    } catch (DuplicateKeyException e) {
-      sr.setMyException(new MyException("Duplicate meta."));
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error(e.getMessage());
     }
-    return sr;
+    return result;
+
   }
 }

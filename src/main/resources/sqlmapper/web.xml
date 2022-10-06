@@ -165,6 +165,11 @@
     </select>
     <!-- eamilToId 끝 -->
 
+    <!-- excelToDb 시작 -->
+    <insert id="excelToDb" parameterType="com.startuplab.vo.Excel">
+        insert into datas (assignment_id, work_id, data_json, create_time, update_time, data_status) VALUES (#{assignment_id},#{work_id},#{data},now(),now(),1)
+    </insert>
+    <!-- excelToDb 끝 -->
     
 
 </mapper>
