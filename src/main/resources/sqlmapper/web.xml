@@ -53,8 +53,8 @@
 
     <select id="selectDatas" resultType="com.startuplab.vo.Datas" parameterType="com.startuplab.vo.Datas">
         select d.*  
-		, fn_get_code_name('data_status', d.data_status) data_status_name    
-        from datas d
+		, fn_get_code_name('data_status', d.data_status) data_status_name, fn_get_user_name(u.user_id) user_name    
+        from datas d, users u
         <where> 
             and d.work_id = #{work_id}
             <if test="data_id != 0"> and d.data_id = #{data_id} </if>
