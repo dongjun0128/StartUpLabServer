@@ -22,4 +22,5 @@ public class Datas {
     private String row_start;
 
     private String data_status_name;
+    private String user_name;
 }
