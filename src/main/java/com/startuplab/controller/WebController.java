@@ -242,6 +242,10 @@ public class WebController {
                 throw new MyException("필수 파라미터인 user_id 를 입력해주세요!");
             }
 
+            if (param.getData_status() == 0) {
+                throw new MyException("필수 파라미터인 data_status 를 입력해주세요!");
+            }
+
             ServiceResult sr = service.workDistribute(param);
             if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
                 result.addData("data", sr.getData());

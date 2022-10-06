@@ -8,4 +8,5 @@ import lombok.Data;
 public class WorkDistribute {
     private List<Integer> idsArray;
     private int user_id;
+    private int data_status;
 }
