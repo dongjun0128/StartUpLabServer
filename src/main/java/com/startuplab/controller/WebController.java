@@ -177,6 +177,12 @@ public class WebController {
     public ApiResult managerDbSelect(HttpServletRequest request, @RequestBody(required = false) Datas param) {
         ApiResult result = new ApiResult();
         try {
+
+            // 화면에서 Paging을 위한 데이터 요청은 row_count, page_no를 변수로 받아야 한다.
+            // row_count: 한번에 보여줄 데이터 갯수
+            // page_no: 현재 page 번호
+            // row_start: row_count와 page_no로 계산된 검색 시작갯수
+
             log.info("param:{}", param);
             if (param == null) {
                 throw new MyException("요청 내용이 없습니다.");
@@ -185,6 +191,18 @@ public class WebController {
             if (param.getWork_id() == 0) {
                 throw new MyException("필수 파라미터인 work_id 입력해주세요!");
             }
+
+            if (param.getRow_count() == 0) {
+                param.setRow_count(CValue.default_row_count);
+            }
+
+            if (param.getPage_no() == 0) {
+                param.setPage_no(CValue.default_page_no);
+            }
+
+            Integer row_start = (CUtil.objectToInteger(param.getPage_no()) - 1)
+                    * CUtil.objectToInteger(param.getRow_count());
+            param.setRow_start(row_start.toString());
 
             ServiceResult sr = service.dbSelect(param);
             if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
