@@ -7,9 +7,9 @@
         <selectKey resultType="int" keyProperty="data_id" order="AFTER">
          SELECT LAST_INSERT_ID()
       </selectKey>
-        INSERT INTO datas (work_id, assignment_id,data_json, user_id, data_status, create_time, update_time)
-        <if test="data_status == 4">VALUES (#{work_id}, #{assignment_id}, #{data_json}, -1, #{data_status}, now(), now())</if>
-        <if test="data_status != 4">VALUES (#{work_id}, #{assignment_id}, #{data_json}, #{user_id}, #{data_status}, now(), now())</if>
+        INSERT INTO datas (work_id, assignment_id,data_json, user_id, data_status, posted_by,create_time, update_time)
+        <if test="data_status == 4">VALUES (#{work_id}, #{assignment_id}, #{data_json}, -1, #{data_status}, #{user_id},now(), now())</if>
+        <if test="data_status != 4">VALUES (#{work_id}, #{assignment_id}, #{data_json}, #{user_id},#{data_status}, null ,now(), now())</if>
     </insert>
 
     <sql id="where_datas_list">
@@ -53,9 +53,9 @@
 
     <select id="selectDatas" resultType="com.startuplab.vo.Datas" parameterType="com.startuplab.vo.Datas">
         select d.*  
-		, fn_get_code_name('data_status', d.data_status) data_status_name, fn_get_user_name(d.user_id) user_name    
+		, fn_get_code_name('data_status', d.data_status) data_status_name, fn_get_user_name(d.user_id) user_name, fn_get_work_user_name(d.posted_by) work_user_name    
         from datas d
-        <where> 
+        <where>
             and d.work_id = #{work_id}
             <if test="data_id != 0"> and d.data_id = #{data_id} </if>
             <if test="user_id != 0"> and d.user_id = #{user_id} </if>
@@ -71,14 +71,13 @@
         , fn_get_code_name('user_type', u.user_type) user_type_name
 		, fn_get_code_name('user_status', u.user_status) user_status_name
         from users u
-        <where> 
+        <where>
             <if test="assignment_id == 0"> 1=1 </if>
             <if test="assignment_id != 0"> and u.assignment_id = #{assignment_id} </if>
             <if test="user_status != null"> and u.user_status = #{user_status} </if>
-
             and u.user_type = 2
         </where>
-        
+
     </select>
 
     <!-- selectUser 끝 -->
@@ -127,7 +126,6 @@
             json_extract(data_json, concat('$."',#{columnName},'"')) like concat('%',#{keyword},'%')
             and work_id = #{work_id}
             and data_status = #{data_status}
-            
         </where>
     </select>
     <!-- searchDatas 끝 -->
@@ -151,8 +149,8 @@
     <select id="selectAllWork" resultType="com.startuplab.vo.Work" parameterType="com.startuplab.common.vo.MetaData">
         select w.*     
         from works w
-        <where> 
-            <if test="assignment_id != null">and w.assignment_id = #{assignment_id}</if>           
+        <where>
+            <if test="assignment_id != null">and w.assignment_id = #{assignment_id}</if>
         </where>
     </select>
     <!-- selectUser 끝 -->
@@ -172,10 +170,9 @@
         insert into datas (assignment_id, work_id, data_json, create_time, update_time, data_status,user_id) VALUES (#{assignment_id},#{work_id},#{data},now(),now(),2,68)
     </insert>
     <!-- excelToDb 끝 -->
-    
 
-</mapper>
-<!-- <where>  select usermapper
+
+</mapper> <!-- <where>  select usermapper
     <if test="assignment_id == 0"> 1=1 </if>
     <if test="assignment_id != 0"> and u.assignment_id = #{assignment_id} </if>
 </where> -->
