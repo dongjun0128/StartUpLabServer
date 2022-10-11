@@ -310,19 +310,12 @@ public class WebController {
         log.info("{}", param.getWork_id());
 
         try {
-
-            if (param.getWork_id() == 0) {
-                throw new MyException("필수 파라미터인 Work_id 를 입력해주세요!");
-            }
-
             ServiceResult sr = service.dbWorkNumSelect(param);
             if (sr.getMyException().getMyError().equals(MyError.SUCCESS)) {
                 result.addData("data", sr.getData());
             }
             result.setMyError(sr.getMyException());
 
-        } catch (MyException e) {
-            result.setMyError(e);
         } catch (Exception e) {
             result.setMyError();
             e.printStackTrace();

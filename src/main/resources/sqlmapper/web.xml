@@ -110,9 +110,10 @@
         select count(*)      
         from datas d
         <where>
-            and d.work_id = #{work_id}
             and d.data_status = #{data_status}
             <if test="user_id != 0">and d.user_id = #{user_id}</if>
+            <if test="work_id != 0">and d.work_id = #{work_id}</if>
+            <if test="assignment_id != 0">and d.assignment_id = #{assignment_id}</if>
         </where>
     </select>
     <!-- selectWorkDatasNum 끝 -->
