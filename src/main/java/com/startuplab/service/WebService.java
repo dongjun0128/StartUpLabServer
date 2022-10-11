@@ -97,9 +97,9 @@ public class WebService {
         return dao.selectAssignmentDatasNum(assignment_id, data_status);
     }
 
-    public int selectWorkDatasNum(int work_id, int data_status, int user_id) throws SQLException {
+    public int selectWorkDatasNum(int work_id, int data_status, int user_id, int assignment_id) throws SQLException {
         WebDAO dao = sqlSession.getMapper(WebDAO.class);
-        return dao.selectWorkDatasNum(work_id, data_status, user_id);
+        return dao.selectWorkDatasNum(work_id, data_status, user_id, assignment_id);
     }
 
     public List<Datas> searchDatas(SearchKeyWord param) throws SQLException {

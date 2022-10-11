@@ -296,10 +296,18 @@ public class ApiService {
     ServiceResult sr = new ServiceResult();
     try {
       JSONObject dbNums = new JSONObject();
-      dbNums.put("work_id", param.getWork_id());
+
+      if (param.getWork_id() != 0) {
+        dbNums.put("work_id", param.getWork_id());
+      }
+
+      if (param.getAssignment_id() != 0) {
+        dbNums.put("assignment_id", param.getAssignment_id());
+      }
+
       for (int data_status = 1; data_status < 7; data_status++) {
         dbNums.put("data_status" + data_status,
-            web.selectWorkDatasNum(param.getWork_id(), data_status, param.getUser_id()));
+            web.selectWorkDatasNum(param.getWork_id(), data_status, param.getUser_id(), param.getAssignment_id()));
       }
       sr.setData(dbNums);
       sr.setMyException(new MyException(MyError.SUCCESS));
