@@ -53,8 +53,8 @@
 
     <select id="selectDatas" resultType="com.startuplab.vo.Datas" parameterType="com.startuplab.vo.Datas">
         select d.*  
-		, fn_get_code_name('data_status', d.data_status) data_status_name, fn_get_user_name(u.user_id) user_name    
-        from datas d, users u
+		, fn_get_code_name('data_status', d.data_status) data_status_name, fn_get_user_name(d.user_id) user_name    
+        from datas d
         <where> 
             and d.work_id = #{work_id}
             <if test="data_id != 0"> and d.data_id = #{data_id} </if>
@@ -168,7 +168,8 @@
 
     <!-- excelToDb 시작 -->
     <insert id="excelToDb" parameterType="com.startuplab.vo.Excel">
-        insert into datas (assignment_id, work_id, data_json, create_time, update_time, data_status) VALUES (#{assignment_id},#{work_id},#{data},now(),now(),1)
+        <!--insert into datas (assignment_id, work_id, data_json, create_time, update_time, data_status) VALUES (#{assignment_id},#{work_id},#{data},now(),now(),1)-->
+        insert into datas (assignment_id, work_id, data_json, create_time, update_time, data_status,user_id) VALUES (#{assignment_id},#{work_id},#{data},now(),now(),2,68)
     </insert>
     <!-- excelToDb 끝 -->
     
