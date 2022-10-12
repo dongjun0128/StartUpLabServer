@@ -31,7 +31,9 @@
         <set>
             <if test="data_json != null"> data_json = #{data_json}, </if>
             <if test="data_status != 0"> data_status = #{data_status}, </if>
-            <if test="user_id != 0"> user_id = #{user_id}, </if>
+            <if test="data_status == 4"> user_id = -1,</if>
+            <if test="data_status == 4"> posted_by = #{user_id},</if>
+            <if test="user_id != 0 and data_status !=4"> user_id = #{user_id}, </if>
             <if test="assignment_id != 0"> assignment_id = #{assignment_id}, </if>
             update_time = now()
         </set>
