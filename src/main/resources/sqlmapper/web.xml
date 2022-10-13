@@ -63,7 +63,7 @@
             <if test="user_id != 0"> and d.user_id = #{user_id} </if>
             <if test="data_status != 0"> and d.data_status = #{data_status} </if>
         </where>
-        order by update_time
+        order by update_time DESC
         <if test="row_start != null"> limit ${row_start}, ${row_count} </if>
     </select>
 
