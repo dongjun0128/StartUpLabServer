@@ -2,10 +2,12 @@ package com.startuplab.vo;
 
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Datas {
@@ -21,6 +23,9 @@ public class Datas {
     private int page_no;
     private String row_start;
 
+    private int posted_by;
+
     private String data_status_name;
     private String user_name;
+    private String work_user_name;
 }
