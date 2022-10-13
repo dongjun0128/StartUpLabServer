@@ -61,7 +61,7 @@
             <if test="user_id != 0"> and d.user_id = #{user_id} </if>
             <if test="data_status != 0"> and d.data_status = #{data_status} </if>
         </where>
-
+        order by update_time
         <if test="row_start != null"> limit ${row_start}, ${row_count} </if>
     </select>
 
@@ -170,7 +170,7 @@
     <!-- excelToDb 시작 -->
     <insert id="excelToDb" parameterType="com.startuplab.vo.Excel">
         <!--insert into datas (assignment_id, work_id, data_json, create_time, update_time, data_status) VALUES (#{assignment_id},#{work_id},#{data},now(),now(),1)-->
-        insert into datas (assignment_id, work_id, data_json, create_time, update_time, data_status,user_id) VALUES (#{assignment_id},#{work_id},#{data},now(),now(),2,68)
+        insert into datas (assignment_id, work_id, data_json, create_time, update_time, data_status,user_id) VALUES (#{assignment_id},#{work_id},#{data},now(),now(),1,-1)
     </insert>
     <!-- excelToDb 끝 -->
     
