@@ -79,7 +79,7 @@
             <if test="user_status != null"> and u.user_status = #{user_status} </if>
             and u.user_type = 2
         </where>
-
+        order by u.user_id desc
     </select>
 
     <!-- selectUser 끝 -->
