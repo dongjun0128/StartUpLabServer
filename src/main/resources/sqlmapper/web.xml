@@ -123,12 +123,12 @@
     <!-- searchDatas 시작 -->
     <select id="searchDatas" resultType="com.startuplab.vo.Datas" parameterType="com.startuplab.common.vo.SearchKeyWord">
         select d.*
-        , fn_get_code_name('data_status', d.data_status) data_status_name   
+        <if test="data_status != null">, fn_get_code_name('data_status', d.data_status) data_status_name</if>
         from datas d
         <where>
             json_extract(data_json, concat('$."',#{columnName},'"')) like concat('%',#{keyword},'%')
             and work_id = #{work_id}
-            and data_status = #{data_status}
+            <if test="data_status != null">and data_status = #{data_status}</if>
         </where>
     </select>
     <!-- searchDatas 끝 -->
