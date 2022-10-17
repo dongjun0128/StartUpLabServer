@@ -128,7 +128,8 @@
         <where>
             json_extract(data_json, concat('$."',#{columnName},'"')) like concat('%',#{keyword},'%')
             and work_id = #{work_id}
-            <if test="data_status != null">and data_status = #{data_status}</if>
+            <if test="data_status != null">and d.data_status = #{data_status}</if>
+            <if test="user_id != null">and d.user_id = #{user_id}</if>
         </where>
     </select>
     <!-- searchDatas 끝 -->
