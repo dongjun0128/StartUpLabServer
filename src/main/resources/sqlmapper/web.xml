@@ -140,6 +140,8 @@
         <where>
             and m.work_id = #{work_id}
         </where>
+        order by m.meta_orderby
+
     </select>
     <!-- selectUser 끝 -->
     <!-- selectUser 시작 -->
