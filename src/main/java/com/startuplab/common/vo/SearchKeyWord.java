@@ -8,4 +8,5 @@ public class SearchKeyWord {
     private String columnName;
     private String data_status;
     private String work_id;
+    private String user_id;
 }
