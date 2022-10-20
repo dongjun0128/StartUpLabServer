@@ -50,3 +50,40 @@ StartUpLab
 | web | 업무 개수 조회 | 업무별 임시저장, 실측,완료, 총 개수 리턴 | /web/work/nums | application/json;charset=utf-8 |
 | web | 관리자 업무 조회 | 업부를 지정하면 리스트를 리턴 | /web/manager/work/info | application/json;charset=utf-8 |
 | web | user_id 조회 | user_email에 맞는 user_id를 리턴 | /web/email/to/id | application/json;charset=utf-8 |
+
+## Codes
+|column_name|	column_descript|	code_id|	code_name|
+|:------:|:---:|:------:|:---:|
+| user_type | 회원 유형 | 1 | 관리자 |
+| user_type | 회원 유형 | 2 | 유저 |
+| user_status | 가입 상태 | 0 | 탈퇴 |
+| user_status | 가입 상태 | 1 | 정상 |
+| data_status | 데이터상태 | 0 | 삭제 |
+| data_status | 데이터상태 | 1 | 할당전 |
+| data_status | 데이터상태 | 2 | 할 일 |
+| data_status | 데이터상태 | 3 | 임시저장 |
+| data_status | 데이터상태 | 4 | 실측필요 |
+| data_status | 데이터상태 | 5 | 조사불가 |
+| data_status | 데이터상태 | 6 | 완료 |
+| meta_type | 메타타입 | 1 | input_text |
+| meta_type | 메타타입 | 2 | select_box |
+| meta_type | 메타타입 | 3 | check_box |
+| meta_type | 메타타입 | 4 | radio_button |
+| meta_type | 메타타입 | 5 | text_area |
+| meta_type | 메타타입 | 6 | image_file |
+| meta_type | 메타타입 | 7 | 주소 |
+| assignment_id | 과제 분류 | 1 | 광진구 |
+| assignment_id | 과제 분류 | 2 | 순천 |
+| assignment_id | 과제 분류 | 3 | 광주 |
+| assignment_id | 과제 분류 | 4 | 문정원 |
+| work_id | 업무 분류  | 1 | 광진구 |
+| work_id | 업무 분류  | 2 | 순천 |
+| work_id | 업무 분류  | 3 | 광주 |
+| work_id | 업무 분류  | 4 | OTT |
+| work_id | 업무 분류  | 5 | 펫프랜드 |
+| work_id | 업무 분류  | 6 | 베리어프리 |
+| work_id | 업무 분류  | 7 | 트랜드 기반 문화시설 |
+| work_id | 업무 분류  | 8 | 문화다양성 |
+| work_id | 업무 분류  | 9 | 커뮤니티 |
+| work_id | 업무 분류  | 10 | 액티비티 |
+| work_id | 업무 분류  | 11 | 가족여가 |
