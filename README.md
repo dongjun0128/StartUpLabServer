@@ -17,6 +17,7 @@ StartUpLab
   - Spring Boot 2.5.8
   - Mysql 8
   - lombok
+  - vue
   
 ## Server
 - web, api
@@ -25,3 +26,15 @@ StartUpLab
 - Database
   - 115.85.181.186
   - ubuntu 18.04, Mysql 8
+
+## Api List
+|Type|API명|설명|endpoint|Content Type|
+|:------:|:---:|:------:|:---:|:------:|
+|common | 로그인 |	oauth client auth 필요|	/oauth/token|	application/x-www-form-urlencoded|
+| common | 토큰갱신 | oauth client auth 필요 | /oauth/token| application/x-www-form-urlencoded|
+| common | 코드리스트 | 코드타입별리스트 |/common/code/list | application/json;charset=utf-8|
+| common | 회원가입 |  | /common/user/join| application/json;charset=utf-8|
+| common | 회원정보 변경 |  | /common/user/edit| application/json;charset=utf-8|
+| common | 회원조회 | user_id, user_email 검색 | /common/user/info| application/json;charset=utf-8|
+| common | 파일업로드 | 파일을 업로드 하여 Object Storage에 저장 | /common/file/upload| multipart/form-data|
+| common | 토큰정보 조회 | access token의 user  정보 | /common/token/info| application/json;charset=utf-8|
