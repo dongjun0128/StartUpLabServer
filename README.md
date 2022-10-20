@@ -4,7 +4,7 @@ StartUpLab
 |맡은 업무|이름|
 |:------:|:---:|
 |Back-End|[신동준](https://github.com/dongjun0128)|
-|Back-End|[유병찬]|
+|Back-End|[유병찬](https://github.com/SweetDdang)|
 |Front-End|사수봉|
 |Front-End|이은서|
 |Front-End|이규빈|
